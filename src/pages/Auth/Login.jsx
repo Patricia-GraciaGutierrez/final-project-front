@@ -1,42 +1,41 @@
-import "./SignupPage.css";
-import { useState } from "react";
+/* import "./Login.css"; */
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/auth.context";
 import authService from "../../services/auth.service";
 
-function SignupPage() {
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
   const [errorMessage, setErrorMessage] = useState(undefined);
 
   const navigate = useNavigate();
 
+  const { storeToken, authenticateUser } = useContext(AuthContext);
+
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
-  const handleName = (e) => setName(e.target.value);
 
-  const handleSignupSubmit = (e) => {
+  const handleLoginSubmit = (e) => {
     e.preventDefault();
-    // Create an object representing the request body
-    const requestBody = { email, password, name };
+    const requestBody = { email, password };
 
     // Send a request to the server using axios
     /* 
-    const authToken = localStorage.getItem("authToken");
-    axios.post(
-      `${process.env.REACT_APP_SERVER_URL}/auth/signup`, 
-      requestBody, 
-      { headers: { Authorization: `Bearer ${authToken}` },
-    })
-    .then((response) => {})
+    axios.post(`${process.env.REACT_APP_SERVER_URL}/auth/login`)
+      .then((response) => {})
     */
 
     // Or using a service
     authService
-      .signup(requestBody)
+      .login(requestBody)
       .then((response) => {
-        // If the POST request is successful redirect to the login page
-        navigate("/login");
+        // If the POST request is successful store the authentication token,
+        // after the token is stored authenticate the user
+        // and at last navigate to the home page
+        storeToken(response.data.authToken);
+        authenticateUser();
+        navigate("/");
       })
       .catch((error) => {
         // If the request resolves with an error, set the error message in the state
@@ -46,10 +45,10 @@ function SignupPage() {
   };
 
   return (
-    <div className="SignupPage">
-      <h1>Sign Up</h1>
+    <div className="LoginPage">
+      <h1>Login</h1>
 
-      <form onSubmit={handleSignupSubmit}>
+      <form onSubmit={handleLoginSubmit}>
         <label>Email:</label>
         <input type="email" name="email" value={email} onChange={handleEmail} />
 
@@ -61,18 +60,14 @@ function SignupPage() {
           onChange={handlePassword}
         />
 
-        <label>Name:</label>
-        <input type="text" name="name" value={name} onChange={handleName} />
-
-        <button type="submit">Sign Up</button>
+        <button type="submit">Login</button>
       </form>
-
       {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-      <p>Already have account?</p>
-      <Link to={"/login"}> Login</Link>
+      <p>Don't have an account yet?</p>
+      <Link to={"/signup"}> Sign Up</Link>
     </div>
   );
 }
 
-export default SignupPage;
+export default Login;
