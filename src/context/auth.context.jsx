@@ -85,4 +85,5 @@ function AuthProviderWrapper(props) {
   );
 }
 
-export { AuthProviderWrapper, AuthContext };
+export default AuthProviderWrapper;
+export { AuthContext };

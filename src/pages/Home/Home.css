@@ -1,0 +1,8 @@
+@keyframes customFadeInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-custom-fade-in-up {
+  animation: customFadeInUp 0.5s ease-in-out;
+}
