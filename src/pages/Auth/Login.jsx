@@ -1,4 +1,3 @@
-/* import "./Login.css"; */
 import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/auth.context";
@@ -10,7 +9,6 @@ function Login() {
   const [errorMessage, setErrorMessage] = useState(undefined);
 
   const navigate = useNavigate();
-
   const { storeToken, authenticateUser } = useContext(AuthContext);
 
   const handleEmail = (e) => setEmail(e.target.value);
@@ -20,52 +18,72 @@ function Login() {
     e.preventDefault();
     const requestBody = { email, password };
 
-    // Send a request to the server using axios
-    /* 
-    axios.post(`${process.env.REACT_APP_SERVER_URL}/auth/login`)
-      .then((response) => {})
-    */
-
-    // Or using a service
     authService
       .login(requestBody)
       .then((response) => {
-        // If the POST request is successful store the authentication token,
-        // after the token is stored authenticate the user
-        // and at last navigate to the home page
         storeToken(response.data.authToken);
         authenticateUser();
-        navigate("/");
+
+        setTimeout(() => {
+          console.log("Redirigiendo a /dashboard/info...");
+          navigate("/dashboard/info");
+        }, 100);
       })
       .catch((error) => {
-        // If the request resolves with an error, set the error message in the state
-        const errorDescription = error.response.data.message;
+        const errorDescription = error.response?.data?.message || "Error desconocido";
         setErrorMessage(errorDescription);
       });
   };
 
   return (
-    <div className="LoginPage">
-      <h1>Login</h1>
+    <div className="flex items-center justify-center min-h-screen bg-white">
+      <div className="w-96 p-8 bg-white shadow-lg rounded-lg">
+        <h1 className="text-3xl font-bold text-center text-gray-800">Iniciar sesión</h1>
 
-      <form onSubmit={handleLoginSubmit}>
-        <label>Email:</label>
-        <input type="email" name="email" value={email} onChange={handleEmail} />
+        <form onSubmit={handleLoginSubmit} className="mt-6">
+          <div className="mb-4">
+            <label className="block text-gray-700 font-medium text-left">Email:</label>
+            <input
+              type="email"
+              name="email"
+              value={email}
+              onChange={handleEmail}
+              placeholder="nombre@ejemplo.com"
+              className="w-full p-2 mt-1 border border-gray-400 rounded-md focus:ring-2 focus:ring-indigo-400 outline-none"
+              required
+            />
+          </div>
 
-        <label>Password:</label>
-        <input
-          type="password"
-          name="password"
-          value={password}
-          onChange={handlePassword}
-        />
+          <div className="mb-4">
+            <label className="block text-gray-700 font-medium text-left">Contraseña:</label>
+            <input
+              type="password"
+              name="password"
+              value={password}
+              onChange={handlePassword}
+              placeholder="Contraseña"
+              className="w-full p-2 mt-1 border border-gray-400 rounded-md focus:ring-2 focus:ring-indigo-400 outline-none"
+              required
+            />
+          </div>
 
-        <button type="submit">Login</button>
-      </form>
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
+          <button
+            type="submit"
+            className="w-full py-2 mt-4 text-white bg-indigo-500 rounded-md shadow-md hover:bg-indigo-600 transition-all duration-300"
+          >
+            Entrar
+          </button>
+        </form>
 
-      <p>Don't have an account yet?</p>
-      <Link to={"/signup"}> Sign Up</Link>
+        {errorMessage && <p className="text-red-500 text-sm mt-2 text-center">{errorMessage}</p>}
+
+        <p className="mt-4 text-gray-600 text-sm text-center">
+          ¿No tienes una cuenta todavía?{" "}
+          <Link to="/signup" className="text-indigo-500 hover:underline">
+            Regístrate
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }

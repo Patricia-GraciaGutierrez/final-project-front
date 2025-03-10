@@ -19,7 +19,7 @@ class ProfileService {
   getAllProfiles = () => this.api.get("/api/profiles");
   getProfileById = (id) => this.api.get(`/api/profiles/${id}`);
   createProfile = (requestBody) => this.api.post("/api/profiles", requestBody);
-  updateProfile = (id, requestBody) => this.api.put(`//apiprofiles/${id}`, requestBody);
+  updateProfile = (id, requestBody) => this.api.put(`/api/profiles/${id}`, requestBody);
   deleteProfile = (id) => this.api.delete(`/api/profiles/${id}`);
 }
 

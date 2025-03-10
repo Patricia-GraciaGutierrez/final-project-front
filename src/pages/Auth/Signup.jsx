@@ -1,4 +1,3 @@
-/* import "./Signup.css"; */
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import authService from "../../services/auth.service";
@@ -17,60 +16,79 @@ function Signup() {
 
   const handleSignupSubmit = (e) => {
     e.preventDefault();
-    // Create an object representing the request body
     const requestBody = { email, password, name };
 
-    // Send a request to the server using axios
-    /* 
-    const authToken = localStorage.getItem("authToken");
-    axios.post(
-      `${process.env.REACT_APP_SERVER_URL}/auth/signup`, 
-      requestBody, 
-      { headers: { Authorization: `Bearer ${authToken}` },
-    })
-    .then((response) => {})
-    */
-
-    // Or using a service
     authService
       .signup(requestBody)
-      .then((response) => {
-        // If the POST request is successful redirect to the login page
-        navigate("/login");
-      })
+      .then(() => navigate("/login"))
       .catch((error) => {
-        // If the request resolves with an error, set the error message in the state
-        const errorDescription = error.response.data.message;
+        const errorDescription = error.response?.data?.message || "Error desconocido";
         setErrorMessage(errorDescription);
       });
   };
 
   return (
-    <div className="SignupPage">
-      <h1>Sign Up</h1>
+    <div className="flex items-center justify-center min-h-screen bg-white">
+      <div className="w-96 p-8 bg-white shadow-lg rounded-lg">
+        <h1 className="text-3xl font-bold text-center text-gray-800">Regístrate</h1>
 
-      <form onSubmit={handleSignupSubmit}>
-        <label>Email:</label>
-        <input type="email" name="email" value={email} onChange={handleEmail} />
+        <form onSubmit={handleSignupSubmit} className="mt-6">
+          <div className="mb-4">
+            <label className="block text-gray-700 font-medium text-left">Email:</label>
+            <input
+              type="email"
+              name="email"
+              value={email}
+              onChange={handleEmail}
+              placeholder="nombre@ejemplo.com"
+              className="w-full p-2 mt-1 border border-gray-400 rounded-md focus:ring-2 focus:ring-indigo-400 outline-none"
+              required
+            />
+          </div>
 
-        <label>Password:</label>
-        <input
-          type="password"
-          name="password"
-          value={password}
-          onChange={handlePassword}
-        />
+          <div className="mb-4">
+            <label className="block text-gray-700 font-medium text-left">Contraseña:</label>
+            <input
+              type="password"
+              name="password"
+              value={password}
+              onChange={handlePassword}
+              placeholder="Contraseña"
+              className="w-full p-2 mt-1 border border-gray-400 rounded-md focus:ring-2 focus:ring-indigo-400 outline-none"
+              required
+            />
+          </div>
 
-        <label>Name:</label>
-        <input type="text" name="name" value={name} onChange={handleName} />
+          <div className="mb-4">
+            <label className="block text-gray-700 font-medium text-left">Nombre:</label>
+            <input
+              type="text"
+              name="name"
+              value={name}
+              onChange={handleName}
+              placeholder="Tu nombre"
+              className="w-full p-2 mt-1 border border-gray-400 rounded-md focus:ring-2 focus:ring-indigo-400 outline-none"
+              required
+            />
+          </div>
 
-        <button type="submit">Sign Up</button>
-      </form>
+          <button
+            type="submit"
+            className="w-full py-2 mt-4 text-white bg-indigo-500 rounded-md shadow-md hover:bg-indigo-600 transition-all duration-300"
+          >
+            Registrarse
+          </button>
+        </form>
 
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
+        {errorMessage && <p className="text-red-500 text-sm mt-2 text-center">{errorMessage}</p>}
 
-      <p>Already have account?</p>
-      <Link to={"/login"}> Login</Link>
+        <p className="mt-4 text-gray-600 text-sm text-center">
+          ¿Ya tienes una cuenta?{" "}
+          <Link to="/login" className="text-indigo-500 hover:underline">
+            Inicia sesión
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }

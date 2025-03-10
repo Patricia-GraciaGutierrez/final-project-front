@@ -1,8 +1,82 @@
+@keyframes customFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 @keyframes customFadeInUp {
-  0% { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes slowPulse {
+  0% {
+    opacity: 0.1;
+    transform: translateX(100%) rotate(45deg);
+  }
+  50% {
+    opacity: 0.2;
+    transform: translateX(0) rotate(45deg);
+  }
+  100% {
+    opacity: 0.1;
+    transform: translateX(-100%) rotate(45deg);
+  }
+}
+
+.animate-custom-fade-in {
+  animation: customFadeIn 1s ease-out forwards;
 }
 
 .animate-custom-fade-in-up {
-  animation: customFadeInUp 0.5s ease-in-out;
+  animation: customFadeInUp 1s ease-out forwards;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-slow-pulse {
+  animation: slowPulse 8s linear infinite;
+}
+
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+.delay-500 {
+  animation-delay: 500ms;
+}
+
+.delay-700 {
+  animation-delay: 700ms;
 }

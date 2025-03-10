@@ -10,6 +10,7 @@
     "react-scripts": "^5.0.1",
     "tailwindcss-animate": "^1.0.7"
   },
+  "proxy": "http://localhost:5005",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build && echo '/* /index.html 200' | cat >build/_redirects",

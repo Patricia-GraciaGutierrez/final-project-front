@@ -9,13 +9,14 @@ function AuthProviderWrapper(props) {
   const [user, setUser] = useState(null);
 
   const storeToken = (token) => {
+    console.log("Token guardado:", token);
     localStorage.setItem("authToken", token);
   };
 
   const authenticateUser = () => {
     // Get the stored token from the localStorage
     const storedToken = localStorage.getItem("authToken");
-
+    console.log("Token en localStorage:", storedToken);
     // If the token exists in the localStorage
     if (storedToken) {
       // Send a request to the server using axios
@@ -28,9 +29,11 @@ function AuthProviderWrapper(props) {
         */
 
       // Or using a service
+      console.log("Verificando token...");
       authService
         .verify()
         .then((response) => {
+          console.log("Token válido, usuario:", response.data);
           // If the server verifies that JWT token is valid  ✅
           const user = response.data;
           // Update state variables
@@ -39,6 +42,7 @@ function AuthProviderWrapper(props) {
           setUser(user);
         })
         .catch((error) => {
+          console.error("Error verificando token:", error);
           // If the server sends an error response (invalid token) ❌
           // Update state variables
           setIsLoggedIn(false);
@@ -46,6 +50,7 @@ function AuthProviderWrapper(props) {
           setUser(null);
         });
     } else {
+      console.log("No hay token en localStorage");
       // If the token is not available
       setIsLoggedIn(false);
       setIsLoading(false);
@@ -64,6 +69,7 @@ function AuthProviderWrapper(props) {
   };
 
   useEffect(() => {
+    console.log("AuthProviderWrapper montado, verificando autenticación...");
     // Run this code once the AuthProviderWrapper component in the App loads for the first time.
     // This effect runs when the application and the AuthProviderWrapper component load for the first time.
     authenticateUser();

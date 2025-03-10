@@ -4,8 +4,9 @@ import { Navigate } from "react-router-dom";
 import Loading from "../Loading/Loading";
 
 function IsPrivate({ children }) {
+  
   const { isLoggedIn, isLoading } = useContext(AuthContext);
-
+  console.log("IsPrivate - isLoggedIn:", isLoggedIn, "isLoading:", isLoading);
   // If the authentication is still loading ⏳
   if (isLoading) {
     return <Loading />;
