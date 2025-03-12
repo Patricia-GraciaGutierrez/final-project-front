@@ -1,145 +1,210 @@
-import React, { useState, useEffect } from 'react';
-import profileService from '../../../services/curriculum.service';
+import { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../../../context/auth.context";
+import curriculumService from "../../../services/curriculum.service";
 
-const Experience = ({ userId }) => {
-  const [profile, setProfile] = useState({ experience: [] });
-  const [newExperience, setNewExperience] = useState({
-    title: '',
-    company: '',
-    startDate: '',
-    endDate: '',
-    description: '',
-    degree: '',
-    institution: '',
-    location: '',
-    platform: '',
-    url: '',
+function Curriculum() {
+  const { user } = useContext(AuthContext);
+  const [curriculum, setCurriculum] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState({
+    bio: "",
+    skills: [],
+    experience: [{ title: "", company: "", startDate: "", endDate: "", description: "" }],
+    education: [{ degree: "", institution: "", startDate: "", endDate: "" }],
+    location: "",
   });
 
   useEffect(() => {
-    const fetchProfile = async () => {
+    const fetchCurriculum = async () => {
       try {
-        const data = await profileService.getProfileById(userId);
-        setProfile(data);
+        const response = await curriculumService.getCurriculumByUserId(user._id);
+        if (response.data) {
+          setCurriculum(response.data);
+          setFormData(response.data); // Rellenar el formulario si hay datos
+        }
       } catch (error) {
-        console.error('Error fetching profile:', error);
+        console.error("Error fetching curriculum:", error);
+      } finally {
+        setLoading(false);
       }
     };
-    fetchProfile();
-  }, [userId]);
 
-  const handleAddExperience = async () => {
+    fetchCurriculum();
+  }, [user._id]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleArrayChange = (index, field, value, arrayName) => {
+    const updatedArray = [...formData[arrayName]];
+    updatedArray[index][field] = value;
+    setFormData({ ...formData, [arrayName]: updatedArray });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
     try {
-      const updatedProfile = {
-        ...profile,
-        experience: [...profile.experience, newExperience],
-      };
-      await profileService.updateProfile(userId, updatedProfile);
-      setProfile(updatedProfile);
-      setNewExperience({
-        title: '',
-        company: '',
-        startDate: '',
-        endDate: '',
-        description: '',
-        degree: '',
-        institution: '',
-        location: '',
-        platform: '',
-        url: '',
-      });
+      if (curriculum) {
+        await curriculumService.updateCurriculum(curriculum._id, formData);
+        setCurriculum(formData); // Actualizar los datos del curriculum
+      } else {
+        await curriculumService.createCurriculum({ ...formData, userId: user._id });
+        setCurriculum(formData); // Crear el curriculum
+      }
+      setIsEditing(false);
     } catch (error) {
-      console.error('Error adding experience:', error);
+      console.error("Error saving curriculum:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!curriculum) return;
+    setLoading(true);
+    try {
+      await curriculumService.deleteCurriculum(curriculum._id);
+      setCurriculum(null); // Eliminar el curriculum
+      setFormData({
+        bio: "",
+        skills: [],
+        experience: [{ title: "", company: "", startDate: "", endDate: "", description: "" }],
+        education: [{ degree: "", institution: "", startDate: "", endDate: "" }],
+        location: "",
+      });
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Error deleting curriculum:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="p-4 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold text-indigo-500 mb-4">Curriculum</h2>
-      
-      <div className="space-y-4">
-        <input
-          value={newExperience.title}
-          onChange={(e) => setNewExperience({ ...newExperience, title: e.target.value })}
-          className="w-full p-2 border rounded"
-          placeholder="Title"
-        />
-        <input
-          value={newExperience.company}
-          onChange={(e) => setNewExperience({ ...newExperience, company: e.target.value })}
-          className="w-full p-2 border rounded"
-          placeholder="Company"
-        />
-        <input
-          type="date"
-          value={newExperience.startDate}
-          onChange={(e) => setNewExperience({ ...newExperience, startDate: e.target.value })}
-          className="w-full p-2 border rounded"
-        />
-        <input
-          type="date"
-          value={newExperience.endDate}
-          onChange={(e) => setNewExperience({ ...newExperience, endDate: e.target.value })}
-          className="w-full p-2 border rounded"
-        />
-        <textarea
-          value={newExperience.description}
-          onChange={(e) => setNewExperience({ ...newExperience, description: e.target.value })}
-          className="w-full p-2 border rounded"
-          placeholder="Description"
-        />
-        <h2 className="text-2xl font-bold text-indigo-500 mb-4">Education</h2>
-        <input
-          value={newExperience.degree}
-          onChange={(e) => setNewExperience({ ...newExperience, degree: e.target.value })}
-          className="w-full p-2 border rounded"
-          placeholder="Degree"
-        />
-        <input
-          value={newExperience.institution}
-          onChange={(e) => setNewExperience({ ...newExperience, institution: e.target.value })}
-          className="w-full p-2 border rounded"
-          placeholder="Institution"
-        />
-        <h2 className="text-2xl font-bold text-indigo-500 mb-4">Location</h2>
-        <input
-          value={newExperience.location}
-          onChange={(e) => setNewExperience({ ...newExperience, location: e.target.value })}
-          className="w-full p-2 border rounded"
-          placeholder="Location"
-        />
-        <h2 className="text-2xl font-bold text-indigo-500 mb-4">Social Links</h2>
-        <input
-          value={newExperience.platform}
-          onChange={(e) => setNewExperience({ ...newExperience, platform: e.target.value })}
-          className="w-full p-2 border rounded"
-          placeholder="Platform"
-        />
-        <input
-          value={newExperience.url}
-          onChange={(e) => setNewExperience({ ...newExperience, url: e.target.value })}
-          className="w-full p-2 border rounded"
-          placeholder="Url"
-        />
+    <div className="bg-white shadow-md rounded-lg p-6">
+      <h2 className="text-2xl font-semibold text-indigo-500">Curriculum</h2>
+      {loading ? (
+        <p className="text-gray-500">Cargando...</p>
+      ) : curriculum && !isEditing ? (
+        <div className="mt-4">
+          <p><strong>Bio:</strong> {curriculum.bio}</p>
+          <p><strong>Skills:</strong> {curriculum.skills.join(", ")}</p>
+          <p><strong>Location:</strong> {curriculum.location}</p>
 
-        <button
-          onClick={handleAddExperience}
-          className="bg-indigo-500 text-white px-4 py-2 rounded"
-        >
-          Add Curriculum
-        </button>
-      </div>
-      <div className="mt-6">
-        {profile.experience.map((exp, index) => (
-          <div key={index} className="mb-4">
-            <h3 className="font-bold">{exp.title} at {exp.company}</h3>
-            <p className="text-gray-600">{exp.startDate} - {exp.endDate}</p>
-            <p className="text-gray-700">{exp.description}</p>
+          <h3 className="mt-4 text-xl font-semibold">Experience</h3>
+          {curriculum.experience.map((exp, index) => (
+            <div key={index} className="border-b pb-2 mt-2">
+              <p><strong>{exp.title}</strong> at {exp.company}</p>
+              <p>{exp.startDate} - {exp.endDate}</p>
+              <p>{exp.description}</p>
+            </div>
+          ))}
+
+          <h3 className="mt-4 text-xl font-semibold">Education</h3>
+          {curriculum.education.map((edu, index) => (
+            <div key={index} className="border-b pb-2 mt-2">
+              <p><strong>{edu.degree}</strong> at {edu.institution}</p>
+              <p>{edu.startDate} - {edu.endDate}</p>
+            </div>
+          ))}
+
+          <div className="mt-4">
+            <button
+              className="bg-indigo-500 text-white px-4 py-2 rounded-md mr-2"
+              onClick={() => setIsEditing(true)}
+            >
+              Editar
+            </button>
+            <button
+              className="bg-red-500 text-white px-4 py-2 rounded-md"
+              onClick={handleDelete}
+            >
+              Eliminar
+            </button>
           </div>
-        ))}
-      </div>
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit} className="mt-4">
+          <label className="block text-gray-700">Bio</label>
+          <textarea
+            name="bio"
+            value={formData.bio}
+            onChange={handleInputChange}
+            className="w-full border rounded-md p-2"
+          />
+
+          <label className="block text-gray-700 mt-2">Skills (separadas por coma)</label>
+          <input
+            type="text"
+            name="skills"
+            value={formData.skills.join(", ")}
+            onChange={(e) => setFormData({ ...formData, skills: e.target.value.split(", ") })}
+            className="w-full border rounded-md p-2"
+          />
+
+          <label className="block text-gray-700 mt-2">Location</label>
+          <input
+            type="text"
+            name="location"
+            value={formData.location}
+            onChange={handleInputChange}
+            className="w-full border rounded-md p-2"
+          />
+
+          <h3 className="mt-4 text-lg font-semibold">Experience</h3>
+          {formData.experience.map((exp, index) => (
+            <div key={index} className="border-b pb-2 mt-2">
+              <input
+                type="text"
+                placeholder="Title"
+                value={exp.title}
+                onChange={(e) => handleArrayChange(index, "title", e.target.value, "experience")}
+                className="w-full border rounded-md p-2"
+              />
+              <input
+                type="text"
+                placeholder="Company"
+                value={exp.company}
+                onChange={(e) => handleArrayChange(index, "company", e.target.value, "experience")}
+                className="w-full border rounded-md p-2 mt-2"
+              />
+            </div>
+          ))}
+
+          <h3 className="mt-4 text-lg font-semibold">Education</h3>
+          {formData.education.map((edu, index) => (
+            <div key={index} className="border-b pb-2 mt-2">
+              <input
+                type="text"
+                placeholder="Degree"
+                value={edu.degree}
+                onChange={(e) => handleArrayChange(index, "degree", e.target.value, "education")}
+                className="w-full border rounded-md p-2"
+              />
+              <input
+                type="text"
+                placeholder="Institution"
+                value={edu.institution}
+                onChange={(e) => handleArrayChange(index, "institution", e.target.value, "education")}
+                className="w-full border rounded-md p-2 mt-2"
+              />
+            </div>
+          ))}
+
+          <button
+            type="submit"
+            className="bg-indigo-500 text-white px-4 py-2 rounded-md mt-4"
+          >
+            {curriculum ? "Actualizar" : "Crear"}
+          </button>
+        </form>
+      )}
     </div>
   );
-};
+}
 
-export default Experience;
+export default Curriculum;
