@@ -17,6 +17,7 @@ class UserService {
 
   getAllUsers = () => this.api.get("/users");
   getUserById = (id) => this.api.get(`/users/${id}`);
+  getUserProfile = (id) => this.api.get(`/users/${id}/profile`);
   updateUser = (id, requestBody) => this.api.put(`/users/${id}`, requestBody);
   deleteUser = (id) => this.api.delete(`/users/${id}`);
 }

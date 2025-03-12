@@ -36,7 +36,7 @@ function App() {
           <Route path="curriculum" element={<CVEdit />} />
           <Route path="projects" element={<PortfolioEdit />} />
           <Route path="contact" element={<ContactEdit />} />
-          <Route path="experience/preview" element={<CVPreview />} />
+          <Route path="curriculum/preview" element={<CVPreview />} />
         </Route>
 
         {/* Rutas accesibles sin autenticación */}
