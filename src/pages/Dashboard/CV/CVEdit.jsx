@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import profileService from '../../../services/profile.service';
+import profileService from '../../../services/curriculum.service';
 
 const Experience = ({ userId }) => {
   const [profile, setProfile] = useState({ experience: [] });

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-class UserService {
+class ContactService {
   constructor() {
     this.api = axios.create({
       baseURL: process.env.REACT_APP_SERVER_URL || "http://localhost:5005/api",
@@ -14,12 +14,12 @@ class UserService {
       return config;
     });
   }
-
-  getAllUsers = () => this.api.get("/users");
-  getUserById = (id) => this.api.get(`/users/${id}`);
-  updateUser = (id, requestBody) => this.api.put(`/users/${id}`, requestBody);
-  deleteUser = (id) => this.api.delete(`/users/${id}`);
+  
+  getContactByUserId = (userId) => this.api.get(`/contact/user/${userId}`);
+  createContact = (requestBody) => this.api.post("/contact", requestBody);
+  updateContact = (id, requestBody) => this.api.put(`/contact/${id}`, requestBody);
+  deleteContact = (id) => this.api.delete(`/contact/${id}`);
 }
 
-const userService = new UserService();
-export default userService;
+const contactService = new ContactService();
+export default contactService;

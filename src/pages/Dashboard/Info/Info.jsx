@@ -1,107 +1,78 @@
-import React, { useState, useEffect, useContext } from "react";
-import { AuthContext } from "../../../context/auth.context";
-import profileService from "../../../services/profile.service";
+import { useState, useEffect, useContext } from "react";
+import userService from "../../../services/user.services"; // Ahora usamos userService
+import { AuthContext } from "../../../context/auth.context"; 
 
-const Info = () => {
-  const { user } = useContext(AuthContext);
-  const [profile, setProfile] = useState({ bio: "", skills: [], location: "" });
+export default function Info() {
+  const [info, setInfo] = useState("");
   const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(true);
+  
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    console.log(user)
     if (user && user._id) {
-      profileService.getProfileById(user._id)
+      setLoading(true);
+      userService.getUserById(user._id)
         .then((response) => {
-          if (response.data && response.data.userId) {
-            setProfile(response.data);
-          } else {
-            console.warn("No profile found for this user.");
-            setProfile({ bio: "", skills: [], location: "" });
+          const data = response.data;
+          if (data && data.info) {
+            setInfo(data.info);
           }
+          setLoading(false);
         })
-        .catch((err) => console.error("Error fetching profile:", err));
+        .catch((error) => {
+          console.error("Error al obtener información:", error);
+          setLoading(false);
+        });
     }
   }, [user]);
 
-  const handleSave = async () => {
-    try {
-      if (!user?._id) {
-        console.error("No user ID found. Cannot create or update profile.");
-        return;
-      }
-
-      if (!user?._id) { 
-        console.error("No user ID found. Cannot create or update profile.");
-        return;
-      }
-      
-      if (!profile.userId) {
-        console.log("Profile ID missing, creating new profile...");
-        const newProfile = await profileService.createProfile({
-          userId: user._id,
-          ...profile
-        });
-        setProfile(newProfile.data);
-      } else {
-        await profileService.updateProfile(profile._id, profile); // 👈 Usar profile._id
-      }
-
-      setIsEditing(false);
-    } catch (error) {
-      console.error("Error saving profile:", error);
+  const handleSave = () => {
+    if (user && user._id) {
+      userService.updateUser(user._id, { info })
+        .then((response) => {
+          setInfo(response.data.info);
+          setIsEditing(false);
+        })
+        .catch(error => console.error("Error al actualizar:", error));
     }
   };
 
   return (
-    <div className="p-4 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold text-indigo-500 mb-4">Info</h2>
-      {isEditing ? (
-        <div className="space-y-4">
-          <textarea
-            value={profile.bio}
-            onChange={(e) => setProfile({ ...profile, bio: e.target.value })}
-            className="w-full p-2 border rounded"
-            placeholder="Bio"
-          />
-          <input
-            value={profile.skills.join(", ")} // 👈 Convertir array a string
-            onChange={(e) =>
-              setProfile({ ...profile, skills: e.target.value.split(",") })
-            }
-            className="w-full p-2 border rounded"
-            placeholder="Skills (separadas por coma)"
-          />
-          <input
-            value={profile.location}
-            onChange={(e) =>
-              setProfile({ ...profile, location: e.target.value })
-            }
-            className="w-full p-2 border rounded"
-            placeholder="Location"
-          />
-          <button
-            onClick={handleSave}
-            className="bg-indigo-500 text-white px-4 py-2 rounded"
-          >
-            Save
-          </button>
-        </div>
+    <div className="p-6 max-w-lg mx-auto bg-white rounded-xl shadow-md space-y-4">
+      <h2 className="text-xl font-semibold text-gray-900">Información Personal</h2>
+      {loading ? (
+        <p>Cargando...</p>
       ) : (
-        <div>
-          <p className="text-gray-700">{profile.bio}</p>
-          <p className="text-gray-700">{profile.skills.join(", ")}</p>{" "}
-          {/* 👈 Convertir array a string */}
-          <p className="text-gray-700">{profile.location}</p>
-          <button
-            onClick={() => setIsEditing(true)}
-            className="bg-indigo-500 text-white px-4 py-2 rounded mt-4"
-          >
-            Edit
-          </button>
+        <div className="space-y-2">
+          {isEditing ? (
+            <>
+              <textarea
+                value={info}
+                onChange={(e) => setInfo(e.target.value)}
+                placeholder="Información personal"
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              ></textarea>
+              <button
+                onClick={handleSave}
+                className="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600"
+              >
+                Guardar
+              </button>
+            </>
+          ) : (
+            <>
+              <p className="text-gray-700">{info || "No hay información disponible"}</p>
+              <button
+                onClick={() => setIsEditing(true)}
+                className="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600"
+              >
+                Editar
+              </button>
+            </>
+          )}
         </div>
       )}
     </div>
   );
-};
-
-export default Info;
+}

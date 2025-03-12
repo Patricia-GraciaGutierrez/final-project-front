@@ -33,7 +33,7 @@ function App() {
         <Route path="/dashboard" element={<IsPrivate><Dashboard /></IsPrivate>}>
           <Route index element={<Navigate to="info" replace />} /> {/* Redirige a /dashboard/info */}
           <Route path="info" element={<Info />} />
-          <Route path="experience" element={<CVEdit />} />
+          <Route path="curriculum" element={<CVEdit />} />
           <Route path="projects" element={<PortfolioEdit />} />
           <Route path="contact" element={<ContactEdit />} />
           <Route path="experience/preview" element={<CVPreview />} />

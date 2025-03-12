@@ -18,12 +18,12 @@ class ProjectService {
       return config;
     });
   }
-
-  getAllProjects = () => this.api.get("/api/projects");
-  getProjectById = (id) => this.api.get(`/api/projects/${id}`);
-  createProject = (requestBody) => this.api.post("/api/projects", requestBody);
-  updateProject = (id, requestBody) => this.api.put(`/api/projects/${id}`, requestBody);
-  deleteProject = (id) => this.api.delete(`/api/projects/${id}`);
+  
+  getAllProjectsByUserId = (userId) => this.api.get(`/projects/user/${userId}`);
+  getProjectById = (id) => this.api.get(`/projects/${id}`);
+  createProject = (requestBody) => this.api.post("/projects", requestBody);
+  updateProject = (id, requestBody) => this.api.put(`/projects/${id}`, requestBody);
+  deleteProject = (id) => this.api.delete(`/projects/${id}`);
 }
 
 const projectService = new ProjectService();

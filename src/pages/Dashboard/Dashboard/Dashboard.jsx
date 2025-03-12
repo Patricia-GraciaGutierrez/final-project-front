@@ -25,9 +25,9 @@ function Dashboard() {
               Info
             </Link>
             <Link
-              to="/dashboard/experience"
+              to="/dashboard/curriculum"
               className={`text-lg font-semibold ${
-                isActive("/experience")
+                isActive("/curriculum")
                   ? "text-purple-700 border-b-2 border-purple-700"
                   : "text-gray-700 hover:text-purple-700 hover:border-b-2 hover:border-purple-700"
               } transition-colors`}

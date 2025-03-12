@@ -28,11 +28,14 @@ function Login() {
           console.log("Redirigiendo a /dashboard/info...");
           navigate("/dashboard/info");
         }, 100);
+        
       })
       .catch((error) => {
         const errorDescription = error.response?.data?.message || "Error desconocido";
         setErrorMessage(errorDescription);
       });
+
+    
   };
 
   return (
