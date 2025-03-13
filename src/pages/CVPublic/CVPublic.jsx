@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/auth.context";
 import userService from "../../services/user.services";
+import "./CVPublic.css"; // Asegúrate de importar el archivo CSS que crearemos
 
 const CVPublic = () => {
   const { user } = useContext(AuthContext);
@@ -11,6 +12,26 @@ const CVPublic = () => {
   
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("info");
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const contentRef = useRef(null);
+  const cursorRef = useRef(null);
+  
+  // Cursor personalizado
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (cursorRef.current) {
+        cursorRef.current.style.left = `${e.clientX}px`;
+        cursorRef.current.style.top = `${e.clientY}px`;
+      }
+    };
+    
+    window.addEventListener('mousemove', handleMouseMove);
+    
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -36,10 +57,58 @@ const CVPublic = () => {
     fetchProfile();
   }, [currentUserId]);
 
+  const handleTabChange = (tab) => {
+    if (tab === activeTab) return;
+    
+    setIsTransitioning(true);
+    
+    // Aplicar animación de salida
+    if (contentRef.current) {
+      contentRef.current.classList.add('content-exit');
+    }
+    
+    // Cambiar pestaña después de la animación de salida
+    setTimeout(() => {
+      setActiveTab(tab);
+      
+      // Aplicar animación de entrada después de cambiar el contenido
+      setTimeout(() => {
+        if (contentRef.current) {
+          contentRef.current.classList.remove('content-exit');
+          contentRef.current.classList.add('content-enter');
+          
+          // Eliminar la clase de animación de entrada después de completarse
+          setTimeout(() => {
+            if (contentRef.current) {
+              contentRef.current.classList.remove('content-enter');
+              setIsTransitioning(false);
+            }
+          }, 500);
+        }
+      }, 50);
+    }, 300);
+  };
+
   const handleCopyUrl = () => {
     const url = `${window.location.origin}/preview/${currentUserId}`;
     navigator.clipboard.writeText(url);
-    alert("¡URL copiada al portapapeles!");
+    
+    // Mostrar notificación estilizada en lugar de alerta
+    const notification = document.createElement('div');
+    notification.className = 'copy-notification';
+    notification.textContent = 'URL copiada al portapapeles';
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+      notification.classList.add('show');
+      
+      setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+          document.body.removeChild(notification);
+        }, 300);
+      }, 2000);
+    }, 10);
   };
   
   const formatDate = (dateString) => {
@@ -50,43 +119,275 @@ const CVPublic = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <p className="text-gray-500">Cargando perfil...</p>
+      <div className="loader-container">
+        <div className="loader">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
       </div>
     );
   }
 
   if (!profileData) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <p className="text-gray-500">No se encontraron datos del perfil.</p>
+      
+      <div className="error-container">
+        <div className="error-message">
+          <span>404</span>
+          <p>No se encontraron datos del perfil.</p>
+        </div>
       </div>
     );
   }
 
-  const { name, info, theme } = profileData;
+  const { name, info, theme, profession } = profileData;
   const { bio, skills, experience, education, location } = profileData.curriculum || {};
   const projects = profileData.projects || [];
   const contact = profileData.contact || {};
 
+  // Renderiza la sección de Info
+  const renderInfoTab = () => (
+    <div className="tab-content">
+      <h2 className="section-title">Información</h2>
+      {info && (
+        <div className="info-block">
+          <p>{info}</p>
+        </div>
+      )}
+      
+      {location && (
+        <div className="info-block location-block">
+          <h3>Ubicación</h3>
+          <p>{location}</p>
+        </div>
+      )}
+    </div>
+  );
+
+  // Renderiza la sección de Curriculum
+  const renderCurriculumTab = () => (
+    <div className="tab-content">
+      {/* Bio Section */}
+      {bio && (
+        <section className="content-section">
+          <h2 className="section-title">Biografía</h2>
+          <p>{bio}</p>
+        </section>
+      )}
+      
+      {/* Skills Section */}
+      {skills && skills.length > 0 && (
+        <section className="content-section">
+          <h2 className="section-title">Habilidades</h2>
+          <div className="skills-container">
+            {skills.map((skill, index) => (
+              <span key={index} className="skill-tag">
+                {skill}
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
+      
+      {/* Experience Section */}
+      {experience && experience.length > 0 && (
+        <section className="content-section">
+          <h2 className="section-title">Experiencia</h2>
+          <div className="timeline">
+            {experience.map((exp, index) => (
+              <div key={index} className="timeline-item">
+                <div className="timeline-marker"></div>
+                <div className="timeline-content">
+                  <h3>{exp.title}</h3>
+                  <h4>{exp.company}</h4>
+                  {(exp.startDate || exp.endDate) && (
+                    <p className="timeline-date">
+                      {formatDate(exp.startDate)} 
+                      {exp.endDate ? ` - ${formatDate(exp.endDate)}` : " - Presente"}
+                    </p>
+                  )}
+                  {exp.description && (
+                    <p className="timeline-description">
+                      {exp.description}
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+      
+      {/* Education Section */}
+      {education && education.length > 0 && (
+        <section className="content-section">
+          <h2 className="section-title">Educación</h2>
+          <div className="timeline">
+            {education.map((edu, index) => (
+              <div key={index} className="timeline-item">
+                <div className="timeline-marker"></div>
+                <div className="timeline-content">
+                  <h3>{edu.degree}</h3>
+                  <h4>{edu.institution}</h4>
+                  {(edu.startDate || edu.endDate) && (
+                    <p className="timeline-date">
+                      {formatDate(edu.startDate)} 
+                      {edu.endDate ? ` - ${formatDate(edu.endDate)}` : " - Presente"}
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
+  );
+
+  // Renderiza la sección de Proyectos
+  const renderProjectsTab = () => (
+    <div className="tab-content">
+      <h2 className="section-title">Proyectos</h2>
+      {projects && projects.length > 0 ? (
+        <div className="projects-grid">
+          {projects.map((project, index) => (
+            <div key={index} className="project-card">
+              {project.images && project.images[0] && (
+                <div className="project-image">
+                  <img 
+                    src={project.images[0]} 
+                    alt={`${project.title}`}
+                  />
+                </div>
+              )}
+              <div className="project-details">
+                <h3>{project.title}</h3>
+                {project.description && (
+                  <p className="project-description">{project.description}</p>
+                )}
+                
+                {project.technologies && project.technologies.length > 0 && (
+                  <div className="project-technologies">
+                    {project.technologies.map((tech, idx) => (
+                      <span key={idx} className="tech-tag">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                )}
+                
+                {project.link && (
+                  <a 
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="project-link"
+                  >
+                    Ver proyecto <span className="arrow">→</span>
+                  </a>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className="empty-message">No hay proyectos disponibles.</p>
+      )}
+    </div>
+  );
+
+  // Renderiza la sección de Contacto
+  const renderContactTab = () => (
+    <div className="tab-content">
+      <h2 className="section-title">Contacto</h2>
+      {contact && (contact.email || contact.phone || (contact.socialLinks && contact.socialLinks.length > 0)) ? (
+        <div className="contact-grid">
+          {contact.email && (
+            <div className="contact-item">
+              <h3>Email</h3>
+              <a href={`mailto:${contact.email}`} className="contact-link">
+                {contact.email}
+              </a>
+            </div>
+          )}
+          
+          {contact.phone && (
+            <div className="contact-item">
+              <h3>Teléfono</h3>
+              <a href={`tel:${contact.phone}`} className="contact-link">
+                {contact.phone}
+              </a>
+            </div>
+          )}
+          
+          {contact.socialLinks && contact.socialLinks.length > 0 && (
+            <div className="contact-item social-links">
+              <h3>Enlaces</h3>
+              <div className="social-grid">
+                {contact.socialLinks.map((link, index) => (
+                  <a 
+                    key={index}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="social-link"
+                  >
+                    <span className="social-platform">{link.platform}</span>
+                    <span className="social-arrow">→</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      ) : (
+        <p className="empty-message">No hay información de contacto disponible.</p>
+      )}
+    </div>
+  );
+
+  // Renderiza la pestaña activa
+  const renderActiveTab = () => {
+    switch (activeTab) {
+      case "info":
+        return renderInfoTab();
+      case "curriculum":
+        return renderCurriculumTab();
+      case "projects":
+        return renderProjectsTab();
+      case "contact":
+        return renderContactTab();
+      default:
+        return renderInfoTab();
+    }
+  };
+
   return (
-    <div className="font-mono text-gray-800 bg-white min-h-screen">
-      {/* Minimal Header */}
-      <header className="py-8 px-6 border-b border-gray-200">
-        <div className="max-w-5xl mx-auto flex justify-between items-center">
-          <h1 className="text-xl font-normal tracking-tight">{name || "CV"}</h1>
-          <div className="flex items-center space-x-6">
+    <div className="cv-container">
+      {/* Cursor personalizado */}
+      <div ref={cursorRef} className="custom-cursor"></div>
+      <div className="cursor-follower"></div>
+      
+      {/* Header */}
+      <header className="cv-header">
+        <div className="header-content">
+          <div className="identity">
+            <h1 className="name">{name || "CV"}</h1>
+            {profession && <p className="profession">{profession}</p>}
+          </div>
+          <div className="header-actions">
             {!userId && (
               <button
                 onClick={() => navigate('/edit-profile')}
-                className="text-sm hover:underline"
+                className="action-button edit-button"
               >
                 Editar
               </button>
             )}
             <button
               onClick={handleCopyUrl}
-              className="text-sm hover:underline"
+              className="action-button share-button"
             >
               Compartir
             </button>
@@ -94,212 +395,50 @@ const CVPublic = () => {
         </div>
       </header>
       
-      {/* Main Content */}
-      <main className="max-w-5xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-16">
-          {/* Left Column - Info */}
-          <div className="md:col-span-2">
-            <div className="space-y-12">
-              {/* Info Section */}
-              <section>
-                <h2 className="text-xs uppercase tracking-wider mb-6 text-gray-400 font-medium">Información</h2>
-                <div className="space-y-8">
-                  {info && (
-                    <div>
-                      <p className="text-lg leading-relaxed">{info}</p>
-                    </div>
-                  )}
-                  
-                  {location && (
-                    <div>
-                      <h3 className="text-sm font-medium mb-2">Ubicación</h3>
-                      <p>{location}</p>
-                    </div>
-                  )}
-                </div>
-              </section>
-              
-              {/* Skills Section */}
-              {skills && skills.length > 0 && (
-                <section>
-                  <h2 className="text-xs uppercase tracking-wider mb-6 text-gray-400 font-medium">Habilidades</h2>
-                  <div className="flex flex-wrap">
-                    {skills.map((skill, index) => (
-                      <span key={index} className="mr-4 mb-3 pb-1 border-b border-gray-300">
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </section>
-              )}
-              
-              {/* Contact Section */}
-              {contact && (contact.email || contact.phone || (contact.socialLinks && contact.socialLinks.length > 0)) && (
-                <section>
-                  <h2 className="text-xs uppercase tracking-wider mb-6 text-gray-400 font-medium">Contacto</h2>
-                  <div className="space-y-3">
-                    {contact.email && (
-                      <p>
-                        <span className="text-sm font-medium">Email: </span>
-                        <a href={`mailto:${contact.email}`} className="hover:underline">
-                          {contact.email}
-                        </a>
-                      </p>
-                    )}
-                    
-                    {contact.phone && (
-                      <p>
-                        <span className="text-sm font-medium">Teléfono: </span>
-                        <a href={`tel:${contact.phone}`} className="hover:underline">
-                          {contact.phone}
-                        </a>
-                      </p>
-                    )}
-                    
-                    {contact.socialLinks && contact.socialLinks.length > 0 && (
-                      <div className="mt-4">
-                        <h3 className="text-sm font-medium mb-2">Enlaces</h3>
-                        <div className="space-y-2">
-                          {contact.socialLinks.map((link, index) => (
-                            <a 
-                              key={index}
-                              href={link.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="block hover:underline"
-                            >
-                              {link.platform}
-                            </a>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </section>
-              )}
-            </div>
-          </div>
-          
-          {/* Right Column - Main Content */}
-          <div className="md:col-span-3">
-            <div className="space-y-16">
-              {/* Bio Section */}
-              {bio && (
-                <section>
-                  <h2 className="text-xs uppercase tracking-wider mb-6 text-gray-400 font-medium">Biografía</h2>
-                  <p className="text-lg leading-relaxed">{bio}</p>
-                </section>
-              )}
-              
-              {/* Experience Section */}
-              {experience && experience.length > 0 && (
-                <section>
-                  <h2 className="text-xs uppercase tracking-wider mb-6 text-gray-400 font-medium">Experiencia</h2>
-                  <div className="space-y-10">
-                    {experience.map((exp, index) => (
-                      <div key={index} className="border-t border-gray-200 pt-6">
-                        <h3 className="text-lg font-medium">{exp.title}</h3>
-                        <p className="text-md">{exp.company}</p>
-                        {(exp.startDate || exp.endDate) && (
-                          <p className="text-sm text-gray-500 mt-1">
-                            {formatDate(exp.startDate)} 
-                            {exp.endDate ? ` - ${formatDate(exp.endDate)}` : " - Presente"}
-                          </p>
-                        )}
-                        {exp.description && (
-                          <p className="mt-4 leading-relaxed">
-                            {exp.description}
-                          </p>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              )}
-              
-              {/* Education Section */}
-              {education && education.length > 0 && (
-                <section>
-                  <h2 className="text-xs uppercase tracking-wider mb-6 text-gray-400 font-medium">Educación</h2>
-                  <div className="space-y-10">
-                    {education.map((edu, index) => (
-                      <div key={index} className="border-t border-gray-200 pt-6">
-                        <h3 className="text-lg font-medium">{edu.degree}</h3>
-                        <p className="text-md">{edu.institution}</p>
-                        {(edu.startDate || edu.endDate) && (
-                          <p className="text-sm text-gray-500 mt-1">
-                            {formatDate(edu.startDate)} 
-                            {edu.endDate ? ` - ${formatDate(edu.endDate)}` : " - Presente"}
-                          </p>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              )}
-              
-              {/* Projects Section */}
-              {projects && projects.length > 0 && (
-                <section>
-                  <h2 className="text-xs uppercase tracking-wider mb-6 text-gray-400 font-medium">Proyectos</h2>
-                  <div className="space-y-10">
-                    {projects.map((project, index) => (
-                      <div key={index} className="border-t border-gray-200 pt-6">
-                        <h3 className="text-lg font-medium">{project.title}</h3>
-                        {project.description && (
-                          <p className="mt-2 leading-relaxed">{project.description}</p>
-                        )}
-                        
-                        {project.technologies && project.technologies.length > 0 && (
-                          <div className="mt-3">
-                            <p className="text-sm font-medium mb-2">Tecnologías:</p>
-                            <div className="flex flex-wrap">
-                              {project.technologies.map((tech, idx) => (
-                                <span key={idx} className="mr-3 mb-2 text-sm text-gray-600">
-                                  {tech}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                        
-                        {project.link && (
-                          <a 
-                            href={project.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-block mt-3 underline hover:no-underline"
-                          >
-                            Ver proyecto
-                          </a>
-                        )}
-                        
-                        {project.images && project.images.length > 0 && (
-                          <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            {project.images.map((img, idx) => (
-                              <img 
-                                key={idx}
-                                src={img} 
-                                alt={`${project.title} - imagen ${idx + 1}`}
-                                className="w-full h-auto object-cover border border-gray-200"
-                              />
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              )}
-            </div>
-          </div>
+      {/* Navigation Tabs */}
+      <nav className="cv-navigation">
+        <div className="nav-container">
+          <button
+            onClick={() => handleTabChange("info")}
+            className={`nav-tab ${activeTab === "info" ? "active" : ""}`}
+            disabled={isTransitioning}
+          >
+            Info
+          </button>
+          <button
+            onClick={() => handleTabChange("curriculum")}
+            className={`nav-tab ${activeTab === "curriculum" ? "active" : ""}`}
+            disabled={isTransitioning}
+          >
+            Curriculum
+          </button>
+          <button
+            onClick={() => handleTabChange("projects")}
+            className={`nav-tab ${activeTab === "projects" ? "active" : ""}`}
+            disabled={isTransitioning}
+          >
+            Projects
+          </button>
+          <button
+            onClick={() => handleTabChange("contact")}
+            className={`nav-tab ${activeTab === "contact" ? "active" : ""}`}
+            disabled={isTransitioning}
+          >
+            Contact
+          </button>
+          <div className="nav-indicator" style={{ left: `calc(${['info', 'curriculum', 'projects', 'contact'].indexOf(activeTab) * 25}% + 12.5%)` }}></div>
         </div>
+      </nav>
+      
+      {/* Main Content */}
+      <main className="cv-content" ref={contentRef}>
+        {renderActiveTab()}
       </main>
       
       {/* Footer */}
-      <footer className="py-8 px-6 border-t border-gray-200 mt-16">
-        <div className="max-w-5xl mx-auto text-center text-sm text-gray-500">
-          © {new Date().getFullYear()} {name}
+      <footer className="cv-footer">
+        <div className="footer-content">
+          <span className="copyright">© {new Date().getFullYear()} {name}</span>
         </div>
       </footer>
     </div>

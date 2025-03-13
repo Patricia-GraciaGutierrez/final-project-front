@@ -1,102 +1,90 @@
 import { useState, useEffect, useContext } from "react";
 import userService from "../../../services/user.services";
-import { AuthContext } from "../../../context/auth.context"; 
+import { AuthContext } from "../../../context/auth.context";
 
 export default function Info() {
-  const [formData, setFormData] = useState({ info: "" });
+  const [formData, setFormData] = useState({ info: "", profession: "" });
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
   
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    if (user && user._id) {
+    if (user?._id) {
       setLoading(true);
       userService.getUserById(user._id)
         .then((response) => {
           const data = response.data;
-          if (data && data.info) {
-            setFormData({ info: data.info });  // Se asegura de usar formData
+          if (data) {
+            setFormData({
+              info: data.info || "",
+              profession: data.profession || ""
+            });
           }
-          setLoading(false);
         })
-        .catch((error) => {
-          console.error("Error al obtener información:", error);
-          setLoading(false);
-        });
+        .catch((error) => console.error("Error fetching user info:", error))
+        .finally(() => setLoading(false));
     }
   }, [user]);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
-  const handleSave = () => {
-    if (user && user._id) {
-      userService.updateUser(user._id, { info: formData.info }) // Usar formData.info
-        .then(() => {
-          setIsEditing(false);  // Se sale del modo edición
-        })
-        .catch(error => console.error("Error al actualizar:", error));
-    }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    userService.updateUser(user._id, formData)
+      .then(() => setIsEditing(false))
+      .catch((error) => console.error("Error updating user info:", error))
+      .finally(() => setLoading(false));
   };
 
   const handleDelete = () => {
-    if (formData.info) {
-      userService.deleteInfo(user._id, formData.info) // Usamos user._id y formData.info
-        .then(() => {
-          setFormData({ info: "" }); // Limpiamos la información después de eliminar
-          setIsEditing(false); // Salimos del modo edición
-        })
-        .catch(error => console.error("Error al eliminar:", error));
-    }
+    if (!user) return;
+    setLoading(true);
+    userService.deleteUser(user._id)
+      .then(() => {
+        setFormData({ info: "", profession: "" });
+        setIsEditing(false);
+      })
+      .catch((error) => console.error("Error deleting user info:", error))
+      .finally(() => setLoading(false));
   };
 
   return (
-    <div className="p-6 max-w-lg mx-auto bg-white rounded-xl shadow-md space-y-4">
-      <h2 className="text-2xl font-semibold text-indigo-500">Bio</h2>
+    <div className="bg-white shadow-md rounded-lg p-6">
+      <h2 className="text-2xl font-semibold text-indigo-500">Información</h2>
       {loading ? (
-        <p>Cargando...</p>
+        <p className="text-gray-500">Cargando...</p>
+      ) : isEditing ? (
+        <form onSubmit={handleSubmit} className="mt-4">
+          <label className="block text-gray-700">Información</label>
+          <textarea
+            name="info"
+            value={formData.info}
+            onChange={handleInputChange}
+            className="w-full border rounded-md p-2"
+          />
+          <label className="block text-gray-700 mt-2">Profesión</label>
+          <input
+            type="text"
+            name="profession"
+            value={formData.profession}
+            onChange={handleInputChange}
+            className="w-full border rounded-md p-2"
+          />
+          <button type="submit" className="bg-indigo-500 text-white px-4 py-2 rounded-md mt-4">Guardar</button>
+        </form>
       ) : (
-        <div className="space-y-2">
-          <p><strong>Info:</strong></p>
-          {isEditing ? (
-            <>
-              <textarea
-                name="info" // Vinculado a formData.info
-                value={formData.info} // Utiliza formData.info
-                onChange={handleChange}
-                placeholder="Información personal"
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              ></textarea>
-              
-              <button
-                onClick={handleSave}
-                className="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600"
-              >
-                Guardar
-              </button>
-            </>
-          ) : (
-            <>
-              <p className="text-gray-700">{formData.info || "No hay información disponible"}</p>
-              <button
-                onClick={() => setIsEditing(true)}
-                className="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600"
-              >
-                Editar
-              </button>
-              {/* Botón para eliminar solo cuando no esté editando */}
-              {formData.info && (
-                <button
-                  onClick={handleDelete}
-                  className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-                >
-                  Eliminar
-                </button>
-              )}
-            </>
-          )}
+        <div className="mt-4">
+          <p><strong>Información:</strong> {formData.info}</p>
+          <p><strong>Profesión:</strong> {formData.profession}</p>
+          <div className="mt-4">
+            <button className="bg-indigo-500 text-white px-4 py-2 rounded-md mr-2" onClick={() => setIsEditing(true)}>Editar</button>
+            <button className="bg-red-500 text-white px-4 py-2 rounded-md" onClick={handleDelete}>Eliminar</button>
+          </div>
         </div>
       )}
     </div>
