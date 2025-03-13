@@ -1,8 +1,11 @@
 import { Link, useLocation, Outlet } from "react-router-dom";
+import { AuthContext } from "../../../context/auth.context";
+import { useContext } from "react";
 
 function Dashboard() {
   const location = useLocation(); // Para detectar la ruta activa
-
+  const { user } = useContext(AuthContext);
+  
   // Función para determinar si un enlace está activo
   const isActive = (path) => {
     return location.pathname === `/dashboard${path}`;
@@ -53,7 +56,9 @@ function Dashboard() {
               </Link>
             </div>
             <Link
-              to="/dashboard/curriculum/preview"
+              to={`/paginaprofesional/${user?._id}`}
+              target="_blank"  // Esto hace que se abra en una nueva pestaña
+              rel="noopener noreferrer"
               className={`text-lg font-semibold px-4 py-2 rounded-lg ${isActive("/preview")
                 ? "bg-indigo-600 text-white"
                 : "bg-indigo-100 text-indigo-500 hover:bg-indigo-200"
