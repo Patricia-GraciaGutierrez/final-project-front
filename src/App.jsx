@@ -8,7 +8,7 @@ import Signup from "./pages/Auth/Signup";
 import Dashboard from "./pages/Dashboard/Dashboard/Dashboard";
 import CVEdit from "./pages/Dashboard/CV/CVEdit";
 import CVPublic from "./pages/CVPublic/CVPublic";
-import PortfolioEdit from "./pages/Dashboard/Portfolio/PortfolioEdit";
+import Projects from "./pages/Dashboard/Projects/Projects";
 import ContactEdit from "./pages/Dashboard/Contact/ContactEdit";
 import Info from "./pages/Dashboard/Info/Info";
 import NotFound from "./pages/NotFound/NotFound";
@@ -36,7 +36,7 @@ function App() {
           <Route index element={<Navigate to="info" replace />} />
           <Route path="info" element={<Info />} />
           <Route path="curriculum" element={<CVEdit />} />
-          <Route path="projects" element={<PortfolioEdit />} />
+          <Route path="projects" element={<Projects />} />
           <Route path="contact" element={<ContactEdit />} />
         </Route>
 

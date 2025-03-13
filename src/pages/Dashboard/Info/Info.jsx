@@ -54,36 +54,38 @@ export default function Info() {
   };
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-6">
-      <h2 className="text-2xl font-semibold text-indigo-500">Información</h2>
+    <div className="bg-white shadow-md rounded-lg p-6 pl-16 pr-16">
+      <h2 className="text-2xl font-semibold text-indigo-500">Información personal</h2>
       {loading ? (
         <p className="text-gray-500">Cargando...</p>
       ) : isEditing ? (
         <form onSubmit={handleSubmit} className="mt-4">
-          <label className="block text-gray-700">Información</label>
+          <label className="block text-gray-700 font-black text-lg text-left mt-8 mb-4">Breve descripción</label>
           <textarea
             name="info"
             value={formData.info}
             onChange={handleInputChange}
             className="w-full border rounded-md p-2"
+            placeholder="Escribe unas dos o tres líneas sobre ti"
           />
-          <label className="block text-gray-700 mt-2">Profesión</label>
+          <label className="block text-gray-700 font-black text-lg text-left mt-8 mb-4">Profesión</label>
           <input
             type="text"
             name="profession"
             value={formData.profession}
             onChange={handleInputChange}
             className="w-full border rounded-md p-2"
+            placeholder="¿A qué te dedicas?"
           />
-          <button type="submit" className="bg-indigo-500 text-white px-4 py-2 rounded-md mt-4">Guardar</button>
+          <button type="submit" className="bg-indigo-500 text-white px-4 py-2 rounded-md mt-4 hover:bg-indigo-600 transition-colors duration-200">Guardar</button>
         </form>
       ) : (
-        <div className="mt-4">
-          <p><strong>Información:</strong> {formData.info}</p>
+        <div className="mt-8">
+          <p className="mb-4"><strong>Breve descipción:</strong> {formData.info}</p>
           <p><strong>Profesión:</strong> {formData.profession}</p>
-          <div className="mt-4">
-            <button className="bg-indigo-500 text-white px-4 py-2 rounded-md mr-2" onClick={() => setIsEditing(true)}>Editar</button>
-            <button className="bg-red-500 text-white px-4 py-2 rounded-md" onClick={handleDelete}>Eliminar</button>
+          <div className="mt-12">
+          <button className="bg-indigo-500 text-white px-4 py-2 rounded-md mr-6 w-24 hover:bg-indigo-600 transition-colors duration-200" onClick={() => setIsEditing(true)}>Editar</button>
+          <button className="bg-white border-2 border-red-500 text-red-500 px-4 py-2 rounded-md w-24 hover:bg-red-50 transition-colors duration-200" onClick={handleDelete}>Eliminar</button>
           </div>
         </div>
       )}

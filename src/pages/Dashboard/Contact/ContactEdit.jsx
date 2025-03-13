@@ -91,7 +91,7 @@ function Contact() {
 
   return (
     <div className="bg-white shadow-md rounded-lg p-6">
-      <h2 className="text-2xl font-semibold text-indigo-500">Contact Information</h2>
+      <h2 className="text-2xl font-semibold text-indigo-500">Información de contacto</h2>
       {loading ? (
         <p className="text-gray-500">Cargando...</p>
       ) : contact && !isEditing ? (
@@ -114,13 +114,13 @@ function Contact() {
 
           <div className="mt-4">
             <button
-              className="bg-indigo-500 text-white px-4 py-2 rounded-md mr-2"
+              className="bg-indigo-500 text-white px-4 py-2 rounded-md mr-6 w-24 hover:bg-indigo-600 transition-colors duration-200"
               onClick={() => setIsEditing(true)}
             >
               Editar
             </button>
             <button
-              className="bg-red-500 text-white px-4 py-2 rounded-md"
+              className="bg-white border-2 border-red-500 text-red-500 px-4 py-2 rounded-md w-24 hover:bg-red-50 transition-colors duration-200"
               onClick={handleDelete}
             >
               Eliminar
@@ -128,17 +128,18 @@ function Contact() {
           </div>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="mt-4">
-          <label className="block text-gray-700">Email</label>
+        <form onSubmit={handleSubmit} className="mt-4 pl-16 pr-16">
+          <label className="block text-gray-700 font-black text-lg text-left mt-8 mb-4">Email</label>
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleInputChange}
             className="w-full border rounded-md p-2"
+            placeholder="ejemplo@ejemplo.com"
           />
 
-          <label className="block text-gray-700 mt-2">Phone</label>
+          <label className="block text-gray-700 font-black text-lg text-left mt-8 mb-4">Phone</label>
           <input
             type="tel"
             name="phone"
@@ -147,49 +148,52 @@ function Contact() {
             className="w-full border rounded-md p-2"
           />
 
-          <label className="block text-gray-700 mt-2">Social Links</label>
-          {formData.socialLinks.map((link, index) => (
-            <div key={index} className="flex space-x-2 mt-2">
-              <input
-                type="text"
-                name="platform"
-                value={link.platform}
-                onChange={(e) => handleSocialLinkChange(index, "platform", e.target.value)}
-                placeholder="Platform (e.g., Twitter)"
-                className="w-1/2 border rounded-md p-2"
-              />
-              <input
-                type="url"
-                name="url"
-                value={link.url}
-                onChange={(e) => handleSocialLinkChange(index, "url", e.target.value)}
-                placeholder="URL"
-                className="w-1/2 border rounded-md p-2"
-              />
-              <button
-                type="button"
-                onClick={() => handleRemoveSocialLink(index)}
-                className="bg-red-500 text-white px-2 py-1 rounded-md"
-              >
-                Eliminar
-              </button>
-            </div>
-          ))}
+<label className="block text-gray-700 font-black text-lg text-left mt-8 mb-4">Social Links</label>
+{formData.socialLinks.map((link, index) => (
+  <div key={index} className="flex space-x-2 mt-2 items-center">
+    <input
+      type="text"
+      name="platform"
+      value={link.platform}
+      onChange={(e) => handleSocialLinkChange(index, "platform", e.target.value)}
+      placeholder="Plataforma (e.j., Twitter, Linkedin)"
+      className="w-1/2 border rounded-md p-2"
+    />
+    <input
+      type="url"
+      name="url"
+      value={link.url}
+      onChange={(e) => handleSocialLinkChange(index, "url", e.target.value)}
+      placeholder="URL"
+      className="w-1/2 border rounded-md p-2"
+    />
+    <div className="flex space-x-2">
+      <button
+        type="button"
+        onClick={() => handleRemoveSocialLink(index)}
+        className="bg-white border-2 border-red-500 text-red-500 px-4 py-2 rounded-md w-18 hover:bg-red-50 transition-colors duration-200"
+      >
+        -
+      </button>
+      <button
+        type="button"
+        onClick={handleAddSocialLink}
+        className="bg-white border-2 border-indigo-500 text-indigo-500 px-4 py-2 rounded-md w-18 hover:bg-indigo-50 transition-colors duration-200"
+      >
+        +
+      </button>
+    </div>
+  </div>
+))}
+<br />
 
-          <button
-            type="button"
-            onClick={handleAddSocialLink}
-            className="bg-indigo-500 text-white px-4 py-2 rounded-md mt-2"
-          >
-            Añadir Link Social
-          </button>
+<button
+  type="submit"
+  className="bg-indigo-500 text-white px-4 py-2 rounded-md mt-12"
+>
+  {contact ? "Guardar" : "Crear"}
+</button>
 
-          <button
-            type="submit"
-            className="bg-indigo-500 text-white px-4 py-2 rounded-md mt-4"
-          >
-            {contact ? "Actualizar" : "Crear"}
-          </button>
         </form>
       )}
     </div>

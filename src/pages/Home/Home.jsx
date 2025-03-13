@@ -60,7 +60,7 @@ export default function Home() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-12">
             {/* Texto hero */}
             <div className="text-center md:text-left max-w-2xl">
-              <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-900 via-indigo-700 to-indigo-500 leading-tight">
+              <h1 className="text-5xl md:text-6xl font-bold mb-10 bg-clip-text text-transparent bg-gradient-to-r from-indigo-900 via-indigo-700 to-indigo-500 leading-tight">
                 Crea y Comparte tu Página Profesional
               </h1>
               <p className="text-lg md:text-xl text-gray-700 mb-8 leading-relaxed">
@@ -106,7 +106,7 @@ export default function Home() {
               Todo lo que necesitas para <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-800 to-indigo-500">destacar</span>
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Esta plataforma está diseñada para facilitar la creación de un portfolio profesional que impresione a tus futuros empleadores o clientes.
+              Esta plataforma está diseñada para facilitar la creación de una página profesional que impresione a tus futuros empleadores o clientes.
             </p>
           </div>
           
@@ -175,7 +175,7 @@ export default function Home() {
             </div>
             <div className="bg-gray-50 p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 flex flex-col items-center justify-center h-32">
               <div className="text-4xl font-bold text-indigo-600 mb-2">+10,000</div>
-              <p className="text-gray-700">Portfolios creados</p>
+              <p className="text-gray-700">Páginas creadas</p>
             </div>
             <div className="bg-gray-50 p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 flex flex-col items-center justify-center h-32">
               <div className="text-4xl font-bold text-indigo-600 mb-2">98%</div>
@@ -199,10 +199,10 @@ export default function Home() {
             <div className="grid md:grid-cols-5">
               <div className="md:col-span-3 p-8 md:p-12">
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                  ¿Listo para <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-800 to-indigo-500">brillar profesionalmente</span>?
+                  ¿Te atreves <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-800 to-indigo-500">a brillar profesionalmente</span>?
                 </h2>
                 <p className="text-lg text-gray-600 mb-8">
-                  Empieza a crear tu portfolio hoy mismo y lleva tu carrera profesional al siguiente nivel.
+                  Empieza a crear tu página profesional hoy mismo y lleva tu carrera profesional al siguiente nivel.
                 </p>
                 <Link
                   to="/signup"
