@@ -7,8 +7,7 @@ import Login from "./pages/Auth/Login";
 import Signup from "./pages/Auth/Signup";
 import Dashboard from "./pages/Dashboard/Dashboard/Dashboard";
 import CVEdit from "./pages/Dashboard/CV/CVEdit";
-import CVPreview from "./pages/Dashboard/CV/CVPublic";
-import CVPublic from "./pages/Dashboard/CV/CVPublic";
+import CVPublic from "./pages/CVPublic/CVPublic";
 import PortfolioEdit from "./pages/Dashboard/Portfolio/PortfolioEdit";
 import ContactEdit from "./pages/Dashboard/Contact/ContactEdit";
 import Info from "./pages/Dashboard/Info/Info";
@@ -39,7 +38,6 @@ function App() {
           <Route path="curriculum" element={<CVEdit />} />
           <Route path="projects" element={<PortfolioEdit />} />
           <Route path="contact" element={<ContactEdit />} />
-          <Route path="curriculum/preview" element={<CVPreview />} />
         </Route>
 
         {/* Rutas accesibles sin autenticación */}

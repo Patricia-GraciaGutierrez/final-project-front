@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { AuthContext } from "../../../context/auth.context";
-import userService from "../../../services/user.services";
+import { AuthContext } from "../../context/auth.context";
+import userService from "../../services/user.services";
 
 const CVPublic = () => {
   const { user } = useContext(AuthContext);
