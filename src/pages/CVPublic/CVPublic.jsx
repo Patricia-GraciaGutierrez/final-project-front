@@ -13,7 +13,7 @@ const CVPublic = () => {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("info");
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [background, setBackground] = useState("waves-background"); // Estado para el fondo
+  const [background, setBackground] = useState("waves-background");
   const contentRef = useRef(null);
   const cursorRef = useRef(null);
 
