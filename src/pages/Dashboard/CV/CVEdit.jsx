@@ -119,7 +119,7 @@ function Curriculum() {
         <p className="text-gray-500">Cargando...</p>
       ) : curriculum && !isEditing ? (
         <div className="mt-4">
-          <p><strong>Bio:</strong> {curriculum.bio}</p>
+          <p><strong>Resumen profesional:</strong> {curriculum.bio}</p>
           <p><strong>Skills:</strong> {curriculum.skills.join(", ")}</p>
           <p><strong>Location:</strong> {curriculum.location}</p>
 
