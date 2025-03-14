@@ -60,23 +60,25 @@ export default function Home() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-12">
             {/* Texto hero */}
             <div className="text-center md:text-left max-w-2xl">
-              <h1 className="text-5xl md:text-6xl font-bold mb-10 bg-clip-text text-transparent bg-gradient-to-r from-indigo-900 via-indigo-700 to-indigo-500 leading-tight">
+              <h1 className="text-5xl md:text-6xl font-bold mb-10 ml-24 bg-clip-text text-transparent bg-gradient-to-r from-indigo-900 via-indigo-700 to-indigo-500 leading-tight">
                 Crea y Comparte tu Página Profesional
               </h1>
-              <p className="text-lg md:text-xl text-gray-700 mb-8 leading-relaxed">
+              <p className="text-lg md:text-xl text-gray-700 mb-8 ml-24 leading-relaxed">
                 Diseña tu CV y portfolio con una plantilla optimizada y compártelo con un solo clic.
                 <span className="block mt-3 text-indigo-600 font-medium">Impulsa tu carrera profesional hoy mismo.</span>
               </p>
               
               <Link
                 to="/signup"
-                className="relative overflow-hidden group inline-flex items-center justify-center px-8 py-4 font-bold text-white rounded-lg bg-gradient-to-r from-indigo-800 to-indigo-500 shadow-lg shadow-indigo-500/20 transform transition-all duration-300 hover:scale-105 hover:shadow-indigo-500/30"
+                className="relative overflow-hidden group inline-flex items-center justify-center px-8 py-4 ml-24 font-bold text-white rounded-lg bg-gradient-to-r from-indigo-800 to-indigo-500 shadow-lg shadow-indigo-500/20 transform transition-all duration-300 hover:scale-105 hover:shadow-indigo-500/30"
               >
-                <span className="relative z-10">Empieza Ahora</span>
+                
+                <span className="relative z-10 ">Empieza Ahora</span>
                 <span className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></span>
                 <svg className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                 </svg>
+                
               </Link>
             </div>
             
@@ -85,8 +87,8 @@ export default function Home() {
               <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-indigo-700 to-indigo-500 blur-xl opacity-30 transform -rotate-3 scale-95"></div>
               <img
                 src={bg}
-                alt="Portfolio Profesional"
-                className="relative z-10 rounded-lg shadow-xl w-full"
+                alt="Página Profesional"
+                className="relative z-10 rounded-lg shadow-xl w-full "
               />
               <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-indigo-300/20 rounded-full blur-xl"></div>
               <div className="absolute -top-4 -left-4 w-32 h-32 bg-indigo-400/10 rounded-full blur-xl"></div>
