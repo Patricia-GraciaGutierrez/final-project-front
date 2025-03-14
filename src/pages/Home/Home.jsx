@@ -60,17 +60,17 @@ export default function Home() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-12">
             {/* Texto hero */}
             <div className="text-center md:text-left max-w-2xl">
-              <h1 className="text-5xl md:text-6xl font-bold mb-10 ml-24 bg-clip-text text-transparent bg-gradient-to-r from-indigo-900 via-indigo-700 to-indigo-500 leading-tight">
+              <h1 className="text-5xl md:text-6xl font-bold mb-10 bg-clip-text text-transparent bg-gradient-to-r from-indigo-900 via-indigo-700 to-indigo-500 leading-tight">
                 Crea y Comparte tu Página Profesional
               </h1>
-              <p className="text-lg md:text-xl text-gray-700 mb-8 ml-24 leading-relaxed">
+              <p className="text-lg md:text-xl text-gray-700 mb-8 leading-relaxed">
                 Diseña tu CV y portfolio con una plantilla optimizada y compártelo con un solo clic.
                 <span className="block mt-3 text-indigo-600 font-medium">Impulsa tu carrera profesional hoy mismo.</span>
               </p>
               
               <Link
                 to="/signup"
-                className="relative overflow-hidden group inline-flex items-center justify-center px-8 py-4 ml-24 font-bold text-white rounded-lg bg-gradient-to-r from-indigo-800 to-indigo-500 shadow-lg shadow-indigo-500/20 transform transition-all duration-300 hover:scale-105 hover:shadow-indigo-500/30"
+                className="relative overflow-hidden group inline-flex items-center justify-center px-8 py-4 font-bold text-white rounded-lg bg-gradient-to-r from-indigo-800 to-indigo-500 shadow-lg shadow-indigo-500/20 transform transition-all duration-300 hover:scale-105 hover:shadow-indigo-500/30"
               >
                 
                 <span className="relative z-10 ">Empieza Ahora</span>
