@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/auth.context";
 import authService from "../../services/auth.service";
 
@@ -7,8 +7,8 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(undefined);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const navigate = useNavigate();
   const { storeToken, authenticateUser } = useContext(AuthContext);
 
   const handleEmail = (e) => setEmail(e.target.value);
@@ -17,6 +17,9 @@ function Login() {
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     const requestBody = { email, password };
+    
+    setIsLoading(true);
+    setErrorMessage(undefined);
 
     authService
       .login(requestBody)
@@ -26,16 +29,16 @@ function Login() {
 
         setTimeout(() => {
           console.log("Redirigiendo a /dashboard/info...");
-          navigate("/dashboard/info");
-        }, 100);
-        
+          window.location.href = "/dashboard/info";
+        }, 500);
       })
       .catch((error) => {
         const errorDescription = error.response?.data?.message || "Error desconocido";
         setErrorMessage(errorDescription);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-
-    
   };
 
   return (
@@ -54,6 +57,7 @@ function Login() {
               placeholder="nombre@ejemplo.com"
               className="w-full p-2 mt-1 border border-gray-400 rounded-md focus:ring-2 focus:ring-indigo-400 outline-none"
               required
+              disabled={isLoading}
             />
           </div>
 
@@ -67,14 +71,25 @@ function Login() {
               placeholder="Contraseña"
               className="w-full p-2 mt-1 border border-gray-400 rounded-md focus:ring-2 focus:ring-indigo-400 outline-none"
               required
+              disabled={isLoading}
             />
           </div>
 
           <button
             type="submit"
-            className="w-full py-2 mt-4 text-white bg-indigo-500 rounded-md shadow-md hover:bg-indigo-600 transition-all duration-300"
+            className="w-full py-2 mt-4 text-white bg-indigo-500 rounded-md shadow-md hover:bg-indigo-600 transition-all duration-300 relative"
+            disabled={isLoading}
           >
-            Entrar
+            {isLoading ? (
+              <>
+                <span className="opacity-0">Entrar</span>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                </div>
+              </>
+            ) : (
+              "Entrar"
+            )}
           </button>
         </form>
 

@@ -55,11 +55,11 @@ export default function Info() {
 
   return (
     <div className="bg-white shadow-md rounded-lg p-6 pl-16 pr-16">
-      <h2 className="text-2xl font-semibold text-indigo-500">Información personal</h2>
+      <h2 className="text-2xl font-semibold text-indigo-500 text-center">Información personal</h2>
       {loading ? (
         <p className="text-gray-500">Cargando...</p>
       ) : isEditing ? (
-        <form onSubmit={handleSubmit} className="mt-4">
+        <form onSubmit={handleSubmit} className="mt-4 text-left">
           <label className="block text-gray-700 font-black text-lg text-left mt-8 mb-4">Breve descripción</label>
           <textarea
             name="info"
@@ -81,9 +81,9 @@ export default function Info() {
         </form>
       ) : (
         <div className="mt-8">
-          <p className="mb-4"><strong>Breve descipción:</strong> {formData.info}</p>
-          <p><strong>Profesión:</strong> {formData.profession}</p>
-          <div className="mt-12">
+          <p className="mb-4 text-left"><strong>Breve descipción:</strong> {formData.info}</p>
+          <p className="text-left"><strong>Profesión:</strong> {formData.profession}</p>
+          <div className="mt-12 flex justify-center">
           <button className="bg-indigo-500 text-white px-4 py-2 rounded-md mr-6 w-24 hover:bg-indigo-600 transition-colors duration-200" onClick={() => setIsEditing(true)}>Editar</button>
           <button className="bg-white border-2 border-red-500 text-red-500 px-4 py-2 rounded-md w-24 hover:bg-red-50 transition-colors duration-200" onClick={handleDelete}>Eliminar</button>
           </div>

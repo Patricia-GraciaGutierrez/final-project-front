@@ -109,31 +109,31 @@ function Projects() {
 
   return (
     <div className="bg-white shadow-md rounded-lg p-6">
-      <h2 className="text-2xl font-semibold text-indigo-500">Mis Proyectos</h2>
+      <h2 className="text-2xl font-semibold text-indigo-500 text-center">Mis Proyectos</h2>
       {loading ? (
-        <p className="text-gray-500">Cargando...</p>
+        <p className="text-gray-500 text-left px-4">Cargando...</p>
       ) : projects.length > 0 && !isEditing ? (
-        <div className="mt-4">
+        <div className="mt-4 px-12">
           {projects.map((project, index) => (
             <div key={index} className="border-b pb-2 mt-2">
-              <h3 className="text-xl font-semibold">{project.title}</h3>
-              <p>{project.description}</p>
-              <p><strong>Tecnologías:</strong> {project.technologies.join(", ")}</p>
+              <h3 className="text-xl font-semibold text-left">{project.title}</h3>
+              <p className="text-left my-2">{project.description}</p>
+              <p className="text-left my-2"><strong>Tecnologías:</strong> {project.technologies.join(", ")}</p>
               {project.link && (
-                <p>
+                <p className="text-left my-2">
                   <strong>Enlace:</strong> <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-indigo-500 hover:underline">{project.link}</a>
                 </p>
               )}
               {project.images && project.images.length > 0 && project.images[0] && (
                 <div className="mt-2 mb-4">
-                  <strong>Imágenes:</strong>
+                  <strong className="text-left block">Imágenes:</strong>
                   <div className="flex gap-2 mt-1 overflow-x-auto">
                     {project.images.map((img, idx) => (
                       img && (
                         <img 
                           key={idx} 
                           src={img} 
-                          alt={`Project ${project.title} image ${idx + 1}`}
+                          alt={`${project.title} ${idx + 1}`}
                           className="h-24 w-auto object-cover rounded"
                         />
                       )
@@ -144,7 +144,7 @@ function Projects() {
             </div>
           ))}
 
-          <div className="mt-4">
+          <div className="mt-4 text-center">
             <button
               className="bg-indigo-500 text-white px-4 py-2 rounded-md mr-6 w-24 hover:bg-indigo-600 transition-colors duration-200"
               onClick={() => setIsEditing(true)}
@@ -160,11 +160,11 @@ function Projects() {
           </div>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="mt-4 pl-16 pr-16">
+        <form onSubmit={handleSubmit} className="mt-4 px-8">
           {formData.map((project, index) => (
             <div key={index} className="border-b pb-4 mt-6">
               <div className="flex justify-between items-center mb-2">
-                <span className="font-semibold text-slate-400">Proyecto {index + 1}</span>
+                <span className="font-semibold text-slate-400 text-left">Proyecto {index + 1}</span>
                 {formData.length > 1 && (
                   <button
                     type="button"
@@ -181,7 +181,7 @@ function Projects() {
                 type="text" 
                 value={project.title} 
                 onChange={(e) => handleInputChange(index, "title", e.target.value)} 
-                className="w-full border rounded-md p-2"
+                className="w-full border rounded-md p-2 text-left"
                 placeholder="Nombre del proyecto" 
               />
 
@@ -189,7 +189,7 @@ function Projects() {
               <textarea 
                 value={project.description} 
                 onChange={(e) => handleInputChange(index, "description", e.target.value)} 
-                className="w-full border rounded-md p-2 min-h-24"
+                className="w-full border rounded-md p-2 min-h-24 text-left"
                 placeholder="Describe brevemente tu proyecto y su propósito" 
               />
 
@@ -198,7 +198,7 @@ function Projects() {
                 type="text" 
                 value={project.technologies.join(", ")} 
                 onChange={(e) => handleTechnologiesChange(index, e.target.value)} 
-                className="w-full border rounded-md p-2"
+                className="w-full border rounded-md p-2 text-left"
                 placeholder="React, Node.js, MongoDB..." 
               />
 
@@ -207,7 +207,7 @@ function Projects() {
                 type="url" 
                 value={project.link} 
                 onChange={(e) => handleInputChange(index, "link", e.target.value)} 
-                className="w-full border rounded-md p-2"
+                className="w-full border rounded-md p-2 text-left"
                 placeholder="https://..." 
               />
 
@@ -216,14 +216,14 @@ function Projects() {
                 type="text" 
                 value={project.images.join(", ")} 
                 onChange={(e) => handleImagesChange(index, e.target.value)} 
-                className="w-full border rounded-md p-2"
+                className="w-full border rounded-md p-2 text-left"
                 placeholder="https://ejemplo.com/imagen1.jpg, https://ejemplo.com/imagen2.jpg" 
               />
             </div>
           ))}
 
           <div className="mt-8 mb-4 flex justify-between items-center">
-            <h3 className="text-gray-700 font-black text-lg">Proyectos</h3>
+            <h3 className="text-gray-700 font-black text-lg text-left">Proyectos</h3>
             <button
               type="button"
               onClick={addProject}

@@ -45,7 +45,7 @@ function Dashboard() {
                   : "text-gray-700 hover:text-indigo-500 hover:border-b-2 hover:border-indigo-500"
                   } transition-colors`}
               >
-                Projects
+                Proyectos
               </Link>
               <Link
                 to="/dashboard/contact"
@@ -54,7 +54,7 @@ function Dashboard() {
                   : "text-gray-700 hover:text-indigo-500 hover:border-b-2 hover:border-indigo-500"
                   } transition-colors`}
               >
-                Contact
+                Contacto
               </Link>
             </div>
             <Link

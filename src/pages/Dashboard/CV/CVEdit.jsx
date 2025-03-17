@@ -114,33 +114,33 @@ function Curriculum() {
 
   return (
     <div className="bg-white shadow-md rounded-lg p-6">
-      <h2 className="text-2xl font-semibold text-indigo-500">Curriculum</h2>
+      <h2 className="text-2xl font-semibold text-indigo-500 text-center mb-6">Curriculum</h2>
       {loading ? (
-        <p className="text-gray-500">Cargando...</p>
+        <p className="text-gray-500 text-left px-12">Cargando...</p>
       ) : curriculum && !isEditing ? (
-        <div className="mt-4">
-          <p><strong>Resumen profesional:</strong> {curriculum.bio}</p>
-          <p><strong>Skills:</strong> {curriculum.skills.join(", ")}</p>
-          <p><strong>Location:</strong> {curriculum.location}</p>
+        <div className="mt-4 text-left px-12">
+          <p className="mb-4"><strong>Resumen profesional:</strong> {curriculum.bio}</p>
+          <p className="mb-4"><strong>Skills:</strong> {curriculum.skills.join(", ")}</p>
+          <p className="mb-4"><strong>Residencia actual:</strong> {curriculum.location}</p>
 
-          <h3 className="mt-4 text-xl font-semibold">Experience</h3>
+          <h3 className="mt-8 mb-4 text-xl underline text-slate-800 font-semibold">Experiencia</h3>
           {curriculum.experience.map((exp, index) => (
-            <div key={index} className="border-b pb-2 mt-2">
-              <p><strong>{exp.title}</strong> at {exp.company}</p>
-              <p>{exp.startDate} - {exp.endDate}</p>
-              <p>{exp.description}</p>
+            <div key={index} className="border-b pb-4 mt-4 mb-4">
+              <p className="mb-2"><strong>{exp.title}</strong> at {exp.company}</p>
+              <p className="mb-2">{exp.startDate} - {exp.endDate}</p>
+              <p className="mb-2">{exp.description}</p>
             </div>
           ))}
 
-          <h3 className="mt-4 text-xl font-semibold">Education</h3>
+          <h3 className="mt-8 mb-4 text-xl font-semibold underline text-slate-800">Educación</h3>
           {curriculum.education.map((edu, index) => (
-            <div key={index} className="border-b pb-2 mt-2">
-              <p><strong>{edu.degree}</strong> at {edu.institution}</p>
-              <p>{edu.startDate} - {edu.endDate}</p>
+            <div key={index} className="border-b pb-4 mt-4 mb-4">
+              <p className="mb-2"><strong>{edu.degree}</strong> at {edu.institution}</p>
+              <p className="mb-2">{edu.startDate} - {edu.endDate}</p>
             </div>
           ))}
 
-          <div className="mt-4">
+          <div className="mt-8 flex justify-center">
             <button
               className="bg-indigo-500 text-white px-4 py-2 rounded-md mr-6 w-24 hover:bg-indigo-600 transition-colors duration-200"
               onClick={() => setIsEditing(true)}
@@ -156,13 +156,13 @@ function Curriculum() {
           </div>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="mt-4 pl-16 pr-16">
+        <form onSubmit={handleSubmit} className="mt-4 px-12">
           <label className="block text-gray-700 font-black text-lg text-left mt-8 mb-4">Resumen profesional</label>
           <textarea
             name="bio"
             value={formData.bio}
             onChange={handleInputChange}
-            className="w-full border rounded-md p-2"
+            className="w-full border rounded-md p-3 text-left"
             placeholder="Escribe un breve resumen sobre tu experiencia profesional de unas 4 líneas"
           />
 
@@ -172,22 +172,22 @@ function Curriculum() {
             name="skills"
             value={formData.skills.join(", ")}
             onChange={(e) => setFormData({ ...formData, skills: e.target.value.split(", ") })}
-            className="w-full border rounded-md p-2"
+            className="w-full border rounded-md p-3 text-left"
             placeholder="E.j.- Photoshop, Office..."
           />
 
-          <label className="block text-gray-700 font-black text-lg text-left mt-8 mb-4">Ubicación</label>
+          <label className="block text-gray-700 font-black text-lg text-left mt-8 mb-4">Lugar de residencia</label>
           <input
             type="text"
             name="location"
             value={formData.location}
             onChange={handleInputChange}
-            className="w-full border rounded-md p-2"
+            className="w-full border rounded-md p-3 text-left"
             placeholder="¿Dónde tienes tu residencia habitual?"
           />
 
-          <div className="mt-8 mb-4 flex justify-between items-center">
-            <h3 className="text-gray-700 font-black text-lg">Experience</h3>
+          <div className="mt-10 mb-6 flex justify-between items-center">
+            <h3 className="text-gray-700 font-black text-lg text-left">Experiencia</h3>
             <button
               type="button"
               onClick={() => addArrayItem("experience")}
@@ -198,9 +198,9 @@ function Curriculum() {
           </div>
           
           {formData.experience.map((exp, index) => (
-            <div key={index} className="border-b pb-4 mt-2">
-              <div className="flex justify-between items-center mb-2">
-                <span className="font-semibold  text-slate-400">Experiencia {index + 1}</span>
+            <div key={index} className="border-b pb-6 mt-4 text-left mb-6">
+              <div className="flex justify-between items-center mb-4">
+                <span className="font-semibold text-slate-400">Experiencia {index + 1}</span>
                 {formData.experience.length > 1 && (
                   <button
                     type="button"
@@ -216,43 +216,43 @@ function Curriculum() {
                 type="text"
                 value={exp.title}
                 onChange={(e) => handleArrayChange(index, "title", e.target.value, "experience")}
-                className="w-full border rounded-md p-2"
+                className="w-full border rounded-md p-3 text-left mb-3"
                 placeholder="Puesto de trabajo"
               />
               <input
                 type="text"
                 value={exp.company}
                 onChange={(e) => handleArrayChange(index, "company", e.target.value, "experience")}
-                className="w-full border rounded-md p-2 mt-2"
+                className="w-full border rounded-md p-3 mt-3 text-left mb-3"
                 placeholder="Nombre de la empresa"
               />
-              <div className="flex gap-2 mt-2">
+              <div className="flex gap-3 mt-3 mb-3">
                 <input
                   type="text"
                   value={exp.startDate}
                   onChange={(e) => handleArrayChange(index, "startDate", e.target.value, "experience")}
-                  className="w-1/2 border rounded-md p-2"
+                  className="w-1/2 border rounded-md p-3 text-left"
                   placeholder="Fecha inicio"
                 />
                 <input
                   type="text"
                   value={exp.endDate}
                   onChange={(e) => handleArrayChange(index, "endDate", e.target.value, "experience")}
-                  className="w-1/2 border rounded-md p-2"
+                  className="w-1/2 border rounded-md p-3 text-left"
                   placeholder="Fecha fin"
                 />
               </div>
               <textarea
                 value={exp.description}
                 onChange={(e) => handleArrayChange(index, "description", e.target.value, "experience")}
-                className="w-full border rounded-md p-2 mt-2"
+                className="w-full border rounded-md p-3 mt-3 text-left"
                 placeholder="Describe, resumidamente, las funciones que realizaste"
               />
             </div>
           ))}
 
-          <div className="mt-8 mb-4 flex justify-between items-center">
-            <h3 className="text-gray-700 font-black text-lg">Education</h3>
+          <div className="mt-10 mb-6 flex justify-between items-center">
+            <h3 className=" text-gray-700 font-black text-lg text-left">Education</h3>
             <button
               type="button"
               onClick={() => addArrayItem("education")}
@@ -263,9 +263,9 @@ function Curriculum() {
           </div>
           
           {formData.education.map((edu, index) => (
-            <div key={index} className="border-b pb-4 mt-2">
-              <div className="flex justify-between items-center mb-2">
-                <span className="font-semibold  text-slate-400">Educación {index + 1}</span>
+            <div key={index} className="border-b pb-6 mt-4 text-left mb-6">
+              <div className="flex justify-between items-center mb-4">
+                <span className="font-semibold text-slate-400">Educación {index + 1}</span>
                 {formData.education.length > 1 && (
                   <button
                     type="button"
@@ -281,39 +281,39 @@ function Curriculum() {
                 type="text"
                 value={edu.degree}
                 onChange={(e) => handleArrayChange(index, "degree", e.target.value, "education")}
-                className="w-full border rounded-md p-2"
+                className="w-full border rounded-md p-3 text-left mb-3"
                 placeholder="Título"
               />
               <input
                 type="text"
                 value={edu.institution}
                 onChange={(e) => handleArrayChange(index, "institution", e.target.value, "education")}
-                className="w-full border rounded-md p-2 mt-2"
+                className="w-full border rounded-md p-3 mt-3 text-left mb-3"
                 placeholder="Institución"
               />
-              <div className="flex gap-2 mt-2">
+              <div className="flex gap-3 mt-3">
                 <input
                   type="text"
                   value={edu.startDate}
                   onChange={(e) => handleArrayChange(index, "startDate", e.target.value, "education")}
-                  className="w-1/2 border rounded-md p-2"
+                  className="w-1/2 border rounded-md p-3 text-left"
                   placeholder="Fecha inicio"
                 />
                 <input
                   type="text"
                   value={edu.endDate}
                   onChange={(e) => handleArrayChange(index, "endDate", e.target.value, "education")}
-                  className="w-1/2 border rounded-md p-2"
+                  className="w-1/2 border rounded-md p-3 text-left"
                   placeholder="Fecha fin"
                 />
               </div>
             </div>
           ))}
 
-          <div className="mt-6 flex justify-center">
+          <div className="mt-8 flex justify-center">
             <button
               type="submit"
-              className="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 transition-colors duration-200"
+              className="bg-indigo-500 text-white px-12 py-3 rounded-md hover:bg-indigo-600 transition-colors duration-200"
             >
               {curriculum ? "Guardar" : "Crear"}
             </button>

@@ -18,14 +18,14 @@ function Contact() {
       try {
         const response = await contactService.getContactByUserId(user._id);
         setContact(response.data || null);
-        setFormData(response.data || formData); // Rellenar el formulario si hay datos
+        setFormData(prevFormData => response.data || prevFormData); // Actualización funcional
       } catch (error) {
         console.error("Error fetching contact:", error);
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchContact();
   }, [user._id]);
 
@@ -91,20 +91,20 @@ function Contact() {
 
   return (
     <div className="bg-white shadow-md rounded-lg p-6">
-      <h2 className="text-2xl font-semibold text-indigo-500">Información de contacto</h2>
+      <h2 className="text-2xl font-semibold text-indigo-500 text-center">Información de contacto</h2>
       {loading ? (
-        <p className="text-gray-500">Cargando...</p>
+        <p className="text-gray-500 text-left px-4">Cargando...</p>
       ) : contact && !isEditing ? (
-        <div className="mt-4">
-          <p><strong>Email:</strong> {contact.email}</p>
-          <p><strong>Phone:</strong> {contact.phone}</p>
-          <div>
+        <div className="mt-4 px-12">
+          <p className="text-left my-2"><strong>Email:</strong> {contact.email}</p>
+          <p className="text-left my-2"><strong>Phone:</strong> {contact.phone}</p>
+          <div className="text-left my-2">
             <strong>Social Links:</strong>
-            <ul>
+            <ul className="mt-2">
               {contact.socialLinks.map((link, index) => (
-                <li key={index}>
+                <li key={index} className="mb-2">
                   <span>{link.platform}: </span>
-                  <a href={link.url} target="_blank" rel="noopener noreferrer">
+                  <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-indigo-500 hover:underline">
                     {link.url}
                   </a>
                 </li>
@@ -112,7 +112,7 @@ function Contact() {
             </ul>
           </div>
 
-          <div className="mt-4">
+          <div className="mt-4 text-center">
             <button
               className="bg-indigo-500 text-white px-4 py-2 rounded-md mr-6 w-24 hover:bg-indigo-600 transition-colors duration-200"
               onClick={() => setIsEditing(true)}
@@ -128,14 +128,14 @@ function Contact() {
           </div>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="mt-4 pl-16 pr-16">
+        <form onSubmit={handleSubmit} className="mt-4 px-8">
           <label className="block text-gray-700 font-black text-lg text-left mt-8 mb-4">Email</label>
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleInputChange}
-            className="w-full border rounded-md p-2"
+            className="w-full border rounded-md p-2 text-left"
             placeholder="ejemplo@ejemplo.com"
           />
 
@@ -145,55 +145,56 @@ function Contact() {
             name="phone"
             value={formData.phone}
             onChange={handleInputChange}
-            className="w-full border rounded-md p-2"
+            className="w-full border rounded-md p-2 text-left"
           />
 
-<label className="block text-gray-700 font-black text-lg text-left mt-8 mb-4">Social Links</label>
-{formData.socialLinks.map((link, index) => (
-  <div key={index} className="flex space-x-2 mt-2 items-center">
-    <input
-      type="text"
-      name="platform"
-      value={link.platform}
-      onChange={(e) => handleSocialLinkChange(index, "platform", e.target.value)}
-      placeholder="Plataforma (e.j., Twitter, Linkedin)"
-      className="w-1/2 border rounded-md p-2"
-    />
-    <input
-      type="url"
-      name="url"
-      value={link.url}
-      onChange={(e) => handleSocialLinkChange(index, "url", e.target.value)}
-      placeholder="URL"
-      className="w-1/2 border rounded-md p-2"
-    />
-    <div className="flex space-x-2">
-      <button
-        type="button"
-        onClick={() => handleRemoveSocialLink(index)}
-        className="bg-white border-2 border-red-500 text-red-500 px-4 py-2 rounded-md w-18 hover:bg-red-50 transition-colors duration-200"
-      >
-        -
-      </button>
-      <button
-        type="button"
-        onClick={handleAddSocialLink}
-        className="bg-white border-2 border-indigo-500 text-indigo-500 px-4 py-2 rounded-md w-18 hover:bg-indigo-50 transition-colors duration-200"
-      >
-        +
-      </button>
-    </div>
-  </div>
-))}
-<br />
+          <label className="block text-gray-700 font-black text-lg text-left mt-8 mb-4">Social Links</label>
+          {formData.socialLinks.map((link, index) => (
+            <div key={index} className="flex space-x-2 mt-2 items-center">
+              <input
+                type="text"
+                name="platform"
+                value={link.platform}
+                onChange={(e) => handleSocialLinkChange(index, "platform", e.target.value)}
+                placeholder="Plataforma (e.j., Twitter, Linkedin)"
+                className="w-1/2 border rounded-md p-2 text-left"
+              />
+              <input
+                type="url"
+                name="url"
+                value={link.url}
+                onChange={(e) => handleSocialLinkChange(index, "url", e.target.value)}
+                placeholder="URL"
+                className="w-1/2 border rounded-md p-2 text-left"
+              />
+              <div className="flex space-x-2">
+                <button
+                  type="button"
+                  onClick={() => handleRemoveSocialLink(index)}
+                  className="bg-white border-2 border-red-500 text-red-500 px-4 py-2 rounded-md w-18 hover:bg-red-50 transition-colors duration-200"
+                >
+                  -
+                </button>
+                <button
+                  type="button"
+                  onClick={handleAddSocialLink}
+                  className="bg-white border-2 border-indigo-500 text-indigo-500 px-4 py-2 rounded-md w-18 hover:bg-indigo-50 transition-colors duration-200"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          ))}
+          <br />
 
-<button
-  type="submit"
-  className="bg-indigo-500 text-white px-4 py-2 rounded-md mt-12"
->
-  {contact ? "Guardar" : "Crear"}
-</button>
-
+          <div className="mt-6 flex justify-center">
+            <button
+              type="submit"
+              className="bg-indigo-500 text-white px-4 py-2 rounded-md mt-6"
+            >
+              {contact ? "Guardar" : "Crear"}
+            </button>
+          </div>
         </form>
       )}
     </div>
