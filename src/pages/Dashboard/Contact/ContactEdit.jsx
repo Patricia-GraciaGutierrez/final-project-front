@@ -97,9 +97,9 @@ function Contact() {
       ) : contact && !isEditing ? (
         <div className="mt-4 px-12">
           <p className="text-left my-2"><strong>Email:</strong> {contact.email}</p>
-          <p className="text-left my-2"><strong>Phone:</strong> {contact.phone}</p>
+          <p className="text-left my-2"><strong>Teléfono:</strong> {contact.phone}</p>
           <div className="text-left my-2">
-            <strong>Social Links:</strong>
+            <strong>Redes sociales:</strong>
             <ul className="mt-2">
               {contact.socialLinks.map((link, index) => (
                 <li key={index} className="mb-2">
@@ -139,7 +139,7 @@ function Contact() {
             placeholder="ejemplo@ejemplo.com"
           />
 
-          <label className="block text-gray-700 font-black text-lg text-left mt-8 mb-4">Phone</label>
+          <label className="block text-gray-700 font-black text-lg text-left mt-8 mb-4">Teléfono</label>
           <input
             type="tel"
             name="phone"
@@ -148,7 +148,7 @@ function Contact() {
             className="w-full border rounded-md p-2 text-left"
           />
 
-          <label className="block text-gray-700 font-black text-lg text-left mt-8 mb-4">Social Links</label>
+          <label className="block text-gray-700 font-black text-lg text-left mt-8 mb-4">Redes sociales</label>
           {formData.socialLinks.map((link, index) => (
             <div key={index} className="flex space-x-2 mt-2 items-center">
               <input
