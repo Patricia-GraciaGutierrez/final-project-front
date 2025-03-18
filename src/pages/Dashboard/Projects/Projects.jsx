@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom"; // Importar useNavigate
 import { AuthContext } from "../../../context/auth.context";
 import projectService from "../../../services/project.service";
 
@@ -8,6 +9,7 @@ function Projects() {
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState([]);
+  const navigate = useNavigate(); // Usar useNavigate para la navegación
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -107,6 +109,22 @@ function Projects() {
     }
   };
 
+  // Función para ir a la siguiente sección
+  const goToNextSection = () => {
+    // Si hay cambios sin guardar y está en modo edición, se podría mostrar una confirmación
+    if (isEditing) {
+      // Opción 1: Guardar automáticamente
+      handleSubmit({ preventDefault: () => {} });
+      // Opción 2: Preguntar al usuario (implementar según necesidad)
+    }
+    navigate("/dashboard/contact"); // Redirigir a "Contacto"
+  };
+
+  // Función para ir a la sección anterior
+  const goToPreviousSection = () => {
+    navigate("/dashboard/curriculum"); // Redirigir a "Curriculum"
+  };
+
   return (
     <div className="bg-white shadow-md rounded-lg p-6">
       <h2 className="text-2xl font-semibold text-indigo-500 text-center">Mis Proyectos</h2>
@@ -156,6 +174,27 @@ function Projects() {
               onClick={handleDelete}
             >
               Eliminar
+            </button>
+          </div>
+
+          {/* Botones de navegación */}
+          <div className="flex justify-between mt-16">
+            <button
+              type="button"
+              onClick={goToPreviousSection}
+              className="flex items-center px-4 py-2 rounded-md bg-indigo-100 text-indigo-500 hover:bg-indigo-200 transition-colors duration-200"
+            >
+              <svg className="mr-2 h-5 w-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M15 19l-7-7 7-7"></path>
+              </svg>
+            </button>
+            <button 
+              onClick={goToNextSection}
+              className="flex items-center px-4 py-2 rounded-md bg-indigo-100 text-indigo-500 hover:bg-indigo-200 transition-colors duration-200"
+            >
+              <svg className="ml-2 h-5 w-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M9 5l7 7-7 7"></path>
+              </svg>
             </button>
           </div>
         </div>
@@ -233,7 +272,15 @@ function Projects() {
             </button>
           </div>
 
-          <div className="mt-6 flex justify-center">
+          {/* Botones de Guardar y Cancelar */}
+          <div className="mt-6 flex justify-between">
+            <button
+              type="button"
+              onClick={() => setIsEditing(false)}
+              className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400 transition-colors duration-200"
+            >
+              Cancelar
+            </button>
             <button
               type="submit"
               className="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 transition-colors duration-200"

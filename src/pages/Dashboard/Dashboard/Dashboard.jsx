@@ -18,7 +18,7 @@ function Dashboard() {
       <div className="bg-white shadow-md">
         <div className="container mx-auto px-4 py-4">
           {/* Versión desktop */}
-          <nav className="hidden md:flex justify-between items-center">
+          <nav className="hidden md:flex justify-between items-center px-8">
             <div className="flex space-x-8">
               <Link
                 to="/dashboard/info"

@@ -47,21 +47,19 @@ export default function Home() {
   
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Hero Section - BLANCO con acento indigo */}
-      <div className="relative pt-32 pb-24 md:pt-40 md:pb-32 overflow-hidden bg-white">
-        {/* Elementos decorativos animados más sutiles */}
+      <div className="relative pt-32 pb-24 md:pt-40 md:pb-32 lg:pt-48 lg:pb-40 overflow-hidden bg-white">
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
           <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-indigo-600/5 blur-3xl animate-pulse"></div>
           <div className="absolute top-40 -left-20 w-80 h-80 rounded-full bg-indigo-500/5 blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
           <div className="absolute bottom-0 right-1/4 w-1/3 h-1/3 rounded-full bg-indigo-400/5 blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
         </div>
         
-        <div className={`container mx-auto px-6 relative z-10 transition-all duration-1000 transform ${isVisible.hero ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-          <div className="flex flex-col md:flex-row items-center justify-between gap-12">
+        <div className={`container mx-auto px-6 md:px-8 lg:px-12 xl:px-16 relative z-10 transition-all duration-1000 transform ${isVisible.hero ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+          <div className="flex flex-col md:flex-row items-center justify-between gap-12 lg:gap-16">
             {/* Texto hero */}
             <div className="text-center md:text-left max-w-2xl">
               <h1 className="text-5xl md:text-6xl font-bold mb-10 bg-clip-text text-transparent bg-gradient-to-r from-indigo-900 via-indigo-700 to-indigo-500 leading-tight">
-                Crea y Comparte tu Página Profesional
+                Crea y comparte tu página profesional
               </h1>
               <p className="text-lg md:text-xl text-gray-700 mb-8 leading-relaxed">
                 Diseña tu CV y portfolio con una plantilla optimizada y compártelo con un solo clic.
@@ -82,13 +80,12 @@ export default function Home() {
               </Link>
             </div>
             
-            {/* Imagen con efecto 3D más sutil */}
-            <div className="relative w-full max-w-lg transform transition-all duration-700 hover:rotate-1 hover:scale-105">
+            <div className="relative w-full max-w-lg md:max-w-xl lg:max-w-2xl transform transition-all duration-700 hover:rotate-1 hover:scale-105">
               <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-indigo-700 to-indigo-500 blur-xl opacity-30 transform -rotate-3 scale-95"></div>
               <img
                 src={bg}
                 alt="Página Profesional"
-                className="relative z-10 rounded-lg shadow-xl w-full "
+                className="relative z-10 rounded-lg shadow-xl w-full"
               />
               <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-indigo-300/20 rounded-full blur-xl"></div>
               <div className="absolute -top-4 -left-4 w-32 h-32 bg-indigo-400/10 rounded-full blur-xl"></div>
@@ -101,8 +98,8 @@ export default function Home() {
       <div className="h-20 bg-gray-50"></div>
 
       {/* Features Section - GRIS CLARO */}
-      <div ref={featuresRef} className="bg-gray-50 py-24 md:py-32">
-        <div className="container mx-auto px-6">
+      <div ref={featuresRef} className="bg-gray-50 py-24 md:py-32 lg:py-40">
+        <div className="container mx-auto px-6 md:px-8 lg:px-12 xl:px-16">
           <div className={`text-center mb-16 transition-all duration-700 transform ${isVisible.features ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">
               Todo lo que necesitas para <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-800 to-indigo-500">destacar</span>
@@ -112,7 +109,7 @@ export default function Home() {
             </p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-10">
+          <div className="grid md:grid-cols-3 gap-10 lg:gap-12">
             {/* Feature 1 */}
             <div className={`group bg-white rounded-lg shadow-md hover:shadow-xl overflow-hidden transition-all duration-500 transform ${isVisible.features ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`} style={{ transitionDelay: '100ms' }}>
               <div className="h-2 bg-gradient-to-r from-indigo-800 to-indigo-600"></div>
@@ -168,18 +165,18 @@ export default function Home() {
       <div className="h-20 bg-white"></div>
       
       {/* Testimonial/Stats Section - BLANCO */}
-      <div className="bg-white py-24">
-        <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-3 gap-8 text-center">
-            <div className="bg-gray-50 p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 flex flex-col items-center justify-center h-32">
+      <div className="bg-white py-24 lg:py-32">
+        <div className="container mx-auto px-6 md:px-8 lg:px-12 xl:px-16">
+          <div className="grid md:grid-cols-3 gap-8 lg:gap-10 text-center">
+            <div className="bg-gray-50 p-8 lg:p-10 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 flex flex-col items-center justify-center h-32 lg:h-40">
               <div className="text-4xl font-bold text-indigo-600 mb-2">+5,000</div>
               <p className="text-gray-700">Usuarios satisfechos</p>
             </div>
-            <div className="bg-gray-50 p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 flex flex-col items-center justify-center h-32">
+            <div className="bg-gray-50 p-8 lg:p-10 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 flex flex-col items-center justify-center h-32 lg:h-40">
               <div className="text-4xl font-bold text-indigo-600 mb-2">+10,000</div>
               <p className="text-gray-700">Páginas creadas</p>
             </div>
-            <div className="bg-gray-50 p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 flex flex-col items-center justify-center h-32">
+            <div className="bg-gray-50 p-8 lg:p-10 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 flex flex-col items-center justify-center h-32 lg:h-40">
               <div className="text-4xl font-bold text-indigo-600 mb-2">98%</div>
               <p className="text-gray-700">Tasa de satisfacción</p>
             </div>
@@ -191,15 +188,14 @@ export default function Home() {
       <div className="h-20 bg-gray-50"></div>
 
       {/* CTA Section - AZUL OSCURO */}
-      <div ref={ctaRef} className="bg-gray-50 py-24 relative overflow-hidden">
-        {/* Elementos decorativos sutiles */}
+      <div ref={ctaRef} className="bg-gray-50 py-24 lg:py-32 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-indigo-600/5 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-indigo-500/5 rounded-full blur-3xl"></div>
         
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container mx-auto px-6 md:px-8 lg:px-12 xl:px-16 relative z-10">
           <div className={`max-w-3xl mx-auto bg-white rounded-lg shadow-xl overflow-hidden transition-all duration-700 transform border border-gray-100 ${isVisible.cta ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-10 opacity-0 scale-95'}`}>
             <div className="grid md:grid-cols-5">
-              <div className="md:col-span-3 p-8 md:p-12">
+              <div className="md:col-span-3 p-8 md:p-12 lg:p-16">
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                   ¿Te atreves <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-800 to-indigo-500">a brillar profesionalmente</span>?
                 </h2>
@@ -216,7 +212,7 @@ export default function Home() {
                   </svg>
                 </Link>
               </div>
-              <div className="md:col-span-2 bg-gray-50 flex items-center justify-center p-8">
+              <div className="md:col-span-2 bg-gray-50 flex items-center justify-center p-8 lg:p-12">
                 <div className="text-center">
                   <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white text-indigo-600 mb-4 shadow-md border border-gray-100">
                     <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

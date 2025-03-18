@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../context/auth.context";
 import curriculumService from "../../../services/curriculum.service";
 
@@ -14,6 +15,8 @@ function Curriculum() {
     education: [{ degree: "", institution: "", startDate: "", endDate: "" }],
     location: "",
   });
+  
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCurriculum = async () => {
@@ -111,14 +114,23 @@ function Curriculum() {
       setLoading(false);
     }
   };
+  
+  // Funciones de navegación
+  const goToPreviousSection = () => {
+    navigate("/dashboard/info");
+  };
+  
+  const goToNextSection = () => {
+    navigate("/dashboard/projects");
+  };
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-6">
+    <div className="bg-white shadow-md rounded-lg p-6 pl-16 pr-16">
       <h2 className="text-2xl font-semibold text-indigo-500 text-center mb-6">Curriculum</h2>
       {loading ? (
-        <p className="text-gray-500 text-left px-12">Cargando...</p>
+        <p className="text-gray-500 text-left">Cargando...</p>
       ) : curriculum && !isEditing ? (
-        <div className="mt-4 text-left px-12">
+        <div className="mt-4 text-left">
           <p className="mb-4"><strong>Resumen profesional:</strong> {curriculum.bio}</p>
           <p className="mb-4"><strong>Skills:</strong> {curriculum.skills.join(", ")}</p>
           <p className="mb-4"><strong>Residencia actual:</strong> {curriculum.location}</p>
@@ -140,7 +152,8 @@ function Curriculum() {
             </div>
           ))}
 
-          <div className="mt-8 flex justify-center">
+          {/* Botones de Editar y Eliminar centrados */}
+          <div className="mt-12 flex justify-center">
             <button
               className="bg-indigo-500 text-white px-4 py-2 rounded-md mr-6 w-24 hover:bg-indigo-600 transition-colors duration-200"
               onClick={() => setIsEditing(true)}
@@ -154,9 +167,33 @@ function Curriculum() {
               Eliminar
             </button>
           </div>
+          
+          {/* Botones de navegación separados - Solo en vista de información */}
+          <div className="flex justify-between mt-16">
+            {/* Botón "Atrás" - Navega a la sección de info */}
+            <button
+              type="button"
+              onClick={goToPreviousSection}
+              className="flex items-center px-4 py-2 rounded-md bg-indigo-100 text-indigo-500 hover:bg-indigo-200 transition-colors duration-200"
+            >
+              <svg className="mr-2 h-5 w-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M15 19l-7-7 7-7"></path>
+              </svg>
+            </button>
+            
+            {/* Botón Siguiente - Navega a la sección de proyectos */}
+            <button 
+              onClick={goToNextSection}
+              className="flex items-center px-4 py-2 rounded-md bg-indigo-100 text-indigo-500 hover:bg-indigo-200 transition-colors duration-200"
+            >
+              <svg className="ml-2 h-5 w-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M9 5l7 7-7 7"></path>
+              </svg>
+            </button>
+          </div>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="mt-4 px-12">
+        <form onSubmit={handleSubmit} className="mt-4">
           <label className="block text-gray-700 font-black text-lg text-left mt-8 mb-4">Resumen profesional</label>
           <textarea
             name="bio"
@@ -310,10 +347,17 @@ function Curriculum() {
             </div>
           ))}
 
-          <div className="mt-8 flex justify-center">
+          <div className="mt-8 flex justify-between">
+            <button
+              type="button"
+              className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400 transition-colors duration-200"
+              onClick={() => setIsEditing(false)}
+            >
+              Cancelar
+            </button>
             <button
               type="submit"
-              className="bg-indigo-500 text-white px-12 py-3 rounded-md hover:bg-indigo-600 transition-colors duration-200"
+              className="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 transition-colors duration-200"
             >
               {curriculum ? "Guardar" : "Crear"}
             </button>
