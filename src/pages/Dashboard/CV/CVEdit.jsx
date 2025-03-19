@@ -199,7 +199,7 @@ function Curriculum() {
             name="bio"
             value={formData.bio}
             onChange={handleInputChange}
-            className="w-full border rounded-md p-3 text-left"
+            className="w-full border rounded-md p-3 text-left  text-gray-950"
             placeholder="Escribe un breve resumen sobre tu experiencia profesional de unas 4 líneas"
           />
 
@@ -209,7 +209,7 @@ function Curriculum() {
             name="skills"
             value={formData.skills.join(", ")}
             onChange={(e) => setFormData({ ...formData, skills: e.target.value.split(", ") })}
-            className="w-full border rounded-md p-3 text-left"
+            className="w-full border rounded-md p-3 text-left  text-gray-950"
             placeholder="E.j.- Photoshop, Office..."
           />
 
@@ -219,7 +219,7 @@ function Curriculum() {
             name="location"
             value={formData.location}
             onChange={handleInputChange}
-            className="w-full border rounded-md p-3 text-left"
+            className="w-full border rounded-md p-3 text-left  text-gray-950"
             placeholder="¿Dónde tienes tu residencia habitual?"
           />
 
@@ -253,14 +253,14 @@ function Curriculum() {
                 type="text"
                 value={exp.title}
                 onChange={(e) => handleArrayChange(index, "title", e.target.value, "experience")}
-                className="w-full border rounded-md p-3 text-left mb-3"
+                className="w-full border rounded-md p-3 text-left mb-3  text-gray-950"
                 placeholder="Puesto de trabajo"
               />
               <input
                 type="text"
                 value={exp.company}
                 onChange={(e) => handleArrayChange(index, "company", e.target.value, "experience")}
-                className="w-full border rounded-md p-3 mt-3 text-left mb-3"
+                className="w-full border rounded-md p-3 mt-3 text-left mb-3  text-gray-950"
                 placeholder="Nombre de la empresa"
               />
               <div className="flex gap-3 mt-3 mb-3">
@@ -268,21 +268,21 @@ function Curriculum() {
                   type="text"
                   value={exp.startDate}
                   onChange={(e) => handleArrayChange(index, "startDate", e.target.value, "experience")}
-                  className="w-1/2 border rounded-md p-3 text-left"
+                  className="w-1/2 border rounded-md p-3 text-left  text-gray-950"
                   placeholder="Fecha inicio"
                 />
                 <input
                   type="text"
                   value={exp.endDate}
                   onChange={(e) => handleArrayChange(index, "endDate", e.target.value, "experience")}
-                  className="w-1/2 border rounded-md p-3 text-left"
+                  className="w-1/2 border rounded-md p-3 text-left  text-gray-950"
                   placeholder="Fecha fin"
                 />
               </div>
               <textarea
                 value={exp.description}
                 onChange={(e) => handleArrayChange(index, "description", e.target.value, "experience")}
-                className="w-full border rounded-md p-3 mt-3 text-left"
+                className="w-full border rounded-md p-3 mt-3 text-left  text-gray-950"
                 placeholder="Describe, resumidamente, las funciones que realizaste"
               />
             </div>
@@ -318,14 +318,14 @@ function Curriculum() {
                 type="text"
                 value={edu.degree}
                 onChange={(e) => handleArrayChange(index, "degree", e.target.value, "education")}
-                className="w-full border rounded-md p-3 text-left mb-3"
+                className="w-full border rounded-md p-3 text-left mb-3  text-gray-950"
                 placeholder="Título"
               />
               <input
                 type="text"
                 value={edu.institution}
                 onChange={(e) => handleArrayChange(index, "institution", e.target.value, "education")}
-                className="w-full border rounded-md p-3 mt-3 text-left mb-3"
+                className="w-full border rounded-md p-3 mt-3 text-left mb-3  text-gray-950"
                 placeholder="Institución"
               />
               <div className="flex gap-3 mt-3">
@@ -333,14 +333,14 @@ function Curriculum() {
                   type="text"
                   value={edu.startDate}
                   onChange={(e) => handleArrayChange(index, "startDate", e.target.value, "education")}
-                  className="w-1/2 border rounded-md p-3 text-left"
+                  className="w-1/2 border rounded-md p-3 text-left  text-gray-950"
                   placeholder="Fecha inicio"
                 />
                 <input
                   type="text"
                   value={edu.endDate}
                   onChange={(e) => handleArrayChange(index, "endDate", e.target.value, "education")}
-                  className="w-1/2 border rounded-md p-3 text-left"
+                  className="w-1/2 border rounded-md p-3 text-left  text-gray-950"
                   placeholder="Fecha fin"
                 />
               </div>

@@ -78,7 +78,7 @@ export default function Info() {
             name="info"
             value={formData.info}
             onChange={handleInputChange}
-            className="w-full border rounded-md p-2"
+            className="w-full border rounded-md p-2  text-gray-950"
             placeholder="Escribe unas dos o tres líneas sobre ti"
           />
           <label className="block text-gray-700 font-black text-lg text-left mt-8 mb-4">Profesión</label>
@@ -87,7 +87,7 @@ export default function Info() {
             name="profession"
             value={formData.profession}
             onChange={handleInputChange}
-            className="w-full border rounded-md p-2"
+            className="w-full border rounded-md p-2  text-gray-950"
             placeholder="¿A qué te dedicas?"
           />
           <div className="flex justify-between mt-4">

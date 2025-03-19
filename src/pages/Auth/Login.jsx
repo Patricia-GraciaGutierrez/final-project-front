@@ -55,7 +55,7 @@ function Login() {
               value={email}
               onChange={handleEmail}
               placeholder="nombre@ejemplo.com"
-              className="w-full p-2 mt-1 border border-gray-400 rounded-md focus:ring-2 focus:ring-indigo-400 outline-none"
+              className="w-full p-2 mt-1 border border-gray-400 rounded-md focus:ring-2 focus:ring-indigo-400 outline-none  text-gray-950"
               required
               disabled={isLoading}
             />
@@ -69,7 +69,7 @@ function Login() {
               value={password}
               onChange={handlePassword}
               placeholder="Contraseña"
-              className="w-full p-2 mt-1 border border-gray-400 rounded-md focus:ring-2 focus:ring-indigo-400 outline-none"
+              className="w-full p-2 mt-1 border border-gray-400 rounded-md focus:ring-2 focus:ring-indigo-400 outline-none  text-gray-950"
               required
               disabled={isLoading}
             />
