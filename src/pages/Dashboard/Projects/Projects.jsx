@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom"; // Importar useNavigate
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../context/auth.context";
 import projectService from "../../../services/project.service";
 
@@ -9,7 +9,7 @@ function Projects() {
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState([]);
-  const navigate = useNavigate(); // Usar useNavigate para la navegación
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -57,7 +57,7 @@ function Projects() {
   };
 
   const removeProject = (index) => {
-    if (formData.length <= 1) return; // Mantener al menos un elemento
+    if (formData.length <= 1) return; 
     
     const updatedProjects = [...formData];
     updatedProjects.splice(index, 1);
@@ -109,20 +109,16 @@ function Projects() {
     }
   };
 
-  // Función para ir a la siguiente sección
   const goToNextSection = () => {
-    // Si hay cambios sin guardar y está en modo edición, se podría mostrar una confirmación
     if (isEditing) {
-      // Opción 1: Guardar automáticamente
       handleSubmit({ preventDefault: () => {} });
-      // Opción 2: Preguntar al usuario (implementar según necesidad)
     }
-    navigate("/dashboard/contact"); // Redirigir a "Contacto"
+    navigate("/dashboard/contact");
   };
 
-  // Función para ir a la sección anterior
+
   const goToPreviousSection = () => {
-    navigate("/dashboard/curriculum"); // Redirigir a "Curriculum"
+    navigate("/dashboard/curriculum"); 
   };
 
   return (

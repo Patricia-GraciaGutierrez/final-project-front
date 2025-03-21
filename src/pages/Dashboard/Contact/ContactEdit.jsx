@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom"; // Importar useNavigate
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../context/auth.context";
 import contactService from "../../../services/contact.service";
 
@@ -13,14 +13,14 @@ function Contact() {
     phone: "",
     socialLinks: [],
   });
-  const navigate = useNavigate(); // Usar useNavigate para la navegación
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchContact = async () => {
       try {
         const response = await contactService.getContactByUserId(user._id);
         setContact(response.data || null);
-        setFormData(prevFormData => response.data || prevFormData); // Actualización funcional
+        setFormData(prevFormData => response.data || prevFormData);
       } catch (error) {
         console.error("Error fetching contact:", error);
       } finally {
@@ -91,20 +91,16 @@ function Contact() {
     }
   };
 
-  // Función para ir a la siguiente sección
+ 
   const goToNextSection = () => {
-    // Si hay cambios sin guardar y está en modo edición, se podría mostrar una confirmación
     if (isEditing) {
-      // Opción 1: Guardar automáticamente
       handleSubmit({ preventDefault: () => {} });
-      // Opción 2: Preguntar al usuario (implementar según necesidad)
     }
-    navigate(`/paginaprofesional/${user._id}`); // Redirigir a la página profesional
+    navigate(`/paginaprofesional/${user._id}`);
   };
 
-  // Función para ir a la sección anterior
   const goToPreviousSection = () => {
-    navigate("/dashboard/projects"); // Redirigir a "Projects"
+    navigate("/dashboard/projects");
   };
 
   return (

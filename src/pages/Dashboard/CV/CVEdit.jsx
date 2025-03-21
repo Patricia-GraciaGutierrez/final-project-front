@@ -15,7 +15,7 @@ function Curriculum() {
     education: [{ degree: "", institution: "", startDate: "", endDate: "" }],
     location: "",
   });
-  
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,7 +24,7 @@ function Curriculum() {
         const response = await curriculumService.getCurriculumByUserId(user._id);
         if (response.data) {
           setCurriculum(response.data);
-          setFormData(response.data); // Rellenar el formulario si hay datos
+          setFormData(response.data);
         }
       } catch (error) {
         console.error("Error fetching curriculum:", error);
@@ -68,7 +68,7 @@ function Curriculum() {
   };
 
   const removeArrayItem = (arrayName, index) => {
-    if (formData[arrayName].length <= 1) return; // Mantener al menos un elemento
+    if (formData[arrayName].length <= 1) return;
 
     const updatedArray = [...formData[arrayName]];
     updatedArray.splice(index, 1);
@@ -78,8 +78,11 @@ function Curriculum() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     try {
       if (curriculum) {
+        console.log("Curriculum en handleSubmit:", curriculum);
+        console.log("Curriculum ID:", curriculum?._id);
         await curriculumService.updateCurriculum(curriculum._id, formData);
         setCurriculum(formData); // Actualizar los datos del curriculum
       } else {
@@ -114,12 +117,12 @@ function Curriculum() {
       setLoading(false);
     }
   };
-  
-  // Funciones de navegación
+
+
   const goToPreviousSection = () => {
     navigate("/dashboard/info");
   };
-  
+
   const goToNextSection = () => {
     navigate("/dashboard/projects");
   };
@@ -152,7 +155,7 @@ function Curriculum() {
             </div>
           ))}
 
-          {/* Botones de Editar y Eliminar centrados */}
+          {/* Botones de Editar y Eliminar */}
           <div className="mt-12 flex justify-center">
             <button
               className="bg-indigo-500 text-white px-4 py-2 rounded-md mr-6 w-24 hover:bg-indigo-600 transition-colors duration-200"
@@ -167,8 +170,7 @@ function Curriculum() {
               Eliminar
             </button>
           </div>
-          
-          {/* Botones de navegación separados - Solo en vista de información */}
+
           <div className="flex justify-between mt-16">
             {/* Botón "Atrás" - Navega a la sección de info */}
             <button
@@ -180,9 +182,9 @@ function Curriculum() {
                 <path d="M15 19l-7-7 7-7"></path>
               </svg>
             </button>
-            
+
             {/* Botón Siguiente - Navega a la sección de proyectos */}
-            <button 
+            <button
               onClick={goToNextSection}
               className="flex items-center px-4 py-2 rounded-md bg-indigo-100 text-indigo-500 hover:bg-indigo-200 transition-colors duration-200"
             >
@@ -197,7 +199,7 @@ function Curriculum() {
           <label className="block text-gray-700 font-black text-lg text-left mt-8 mb-4">Resumen profesional</label>
           <textarea
             name="bio"
-            value={formData.bio}
+            value={formData.bio || ""}
             onChange={handleInputChange}
             className="w-full border rounded-md p-3 text-left  text-gray-950"
             placeholder="Escribe un breve resumen sobre tu experiencia profesional de unas 4 líneas"
@@ -207,17 +209,23 @@ function Curriculum() {
           <input
             type="text"
             name="skills"
-            value={formData.skills.join(", ")}
-            onChange={(e) => setFormData({ ...formData, skills: e.target.value.split(", ") })}
-            className="w-full border rounded-md p-3 text-left  text-gray-950"
+            value={(formData.skills || []).join(", ")}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                skills: e.target.value ? e.target.value.split(", ") : [],
+              })
+            }
+            className="w-full border rounded-md p-3 text-left text-gray-950"
             placeholder="E.j.- Photoshop, Office..."
           />
+
 
           <label className="block text-gray-700 font-black text-lg text-left mt-8 mb-4">Lugar de residencia</label>
           <input
             type="text"
             name="location"
-            value={formData.location}
+            value={formData.location || ""}
             onChange={handleInputChange}
             className="w-full border rounded-md p-3 text-left  text-gray-950"
             placeholder="¿Dónde tienes tu residencia habitual?"
@@ -233,7 +241,7 @@ function Curriculum() {
               +
             </button>
           </div>
-          
+
           {formData.experience.map((exp, index) => (
             <div key={index} className="border-b pb-6 mt-4 text-left mb-6">
               <div className="flex justify-between items-center mb-4">
@@ -248,17 +256,17 @@ function Curriculum() {
                   </button>
                 )}
               </div>
-              
+
               <input
                 type="text"
-                value={exp.title}
+                value={exp.title || ""}
                 onChange={(e) => handleArrayChange(index, "title", e.target.value, "experience")}
                 className="w-full border rounded-md p-3 text-left mb-3  text-gray-950"
                 placeholder="Puesto de trabajo"
               />
               <input
                 type="text"
-                value={exp.company}
+                value={exp.company || ""}
                 onChange={(e) => handleArrayChange(index, "company", e.target.value, "experience")}
                 className="w-full border rounded-md p-3 mt-3 text-left mb-3  text-gray-950"
                 placeholder="Nombre de la empresa"
@@ -266,21 +274,21 @@ function Curriculum() {
               <div className="flex gap-3 mt-3 mb-3">
                 <input
                   type="text"
-                  value={exp.startDate}
+                  value={exp.startDate || ""}
                   onChange={(e) => handleArrayChange(index, "startDate", e.target.value, "experience")}
                   className="w-1/2 border rounded-md p-3 text-left  text-gray-950"
                   placeholder="Fecha inicio"
                 />
                 <input
                   type="text"
-                  value={exp.endDate}
+                  value={exp.endDate || ""}
                   onChange={(e) => handleArrayChange(index, "endDate", e.target.value, "experience")}
                   className="w-1/2 border rounded-md p-3 text-left  text-gray-950"
                   placeholder="Fecha fin"
                 />
               </div>
               <textarea
-                value={exp.description}
+                value={exp.description || ""}
                 onChange={(e) => handleArrayChange(index, "description", e.target.value, "experience")}
                 className="w-full border rounded-md p-3 mt-3 text-left  text-gray-950"
                 placeholder="Describe, resumidamente, las funciones que realizaste"
@@ -298,7 +306,7 @@ function Curriculum() {
               +
             </button>
           </div>
-          
+
           {formData.education.map((edu, index) => (
             <div key={index} className="border-b pb-6 mt-4 text-left mb-6">
               <div className="flex justify-between items-center mb-4">
@@ -313,17 +321,17 @@ function Curriculum() {
                   </button>
                 )}
               </div>
-              
+
               <input
                 type="text"
-                value={edu.degree}
+                value={edu.degree || ""}
                 onChange={(e) => handleArrayChange(index, "degree", e.target.value, "education")}
                 className="w-full border rounded-md p-3 text-left mb-3  text-gray-950"
                 placeholder="Título"
               />
               <input
                 type="text"
-                value={edu.institution}
+                value={edu.institution || ""}
                 onChange={(e) => handleArrayChange(index, "institution", e.target.value, "education")}
                 className="w-full border rounded-md p-3 mt-3 text-left mb-3  text-gray-950"
                 placeholder="Institución"
@@ -331,14 +339,14 @@ function Curriculum() {
               <div className="flex gap-3 mt-3">
                 <input
                   type="text"
-                  value={edu.startDate}
+                  value={edu.startDate || ""}
                   onChange={(e) => handleArrayChange(index, "startDate", e.target.value, "education")}
                   className="w-1/2 border rounded-md p-3 text-left  text-gray-950"
                   placeholder="Fecha inicio"
                 />
                 <input
                   type="text"
-                  value={edu.endDate}
+                  value={edu.endDate || ""}
                   onChange={(e) => handleArrayChange(index, "endDate", e.target.value, "education")}
                   className="w-1/2 border rounded-md p-3 text-left  text-gray-950"
                   placeholder="Fecha fin"

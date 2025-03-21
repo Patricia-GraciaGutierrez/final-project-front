@@ -55,13 +55,10 @@ export default function Info() {
       .finally(() => setLoading(false));
   };
 
-  // Función para ir a la siguiente sección
+
   const goToNextSection = () => {
-    // Si hay cambios sin guardar y está en modo edición, se podría mostrar una confirmación
     if (isEditing) {
-      // Opción 1: Guardar automáticamente
       handleSubmit({ preventDefault: () => {} });
-      // Opción 2: Preguntar al usuario (implementar según necesidad)
     }
     navigate("/dashboard/curriculum");
   };
@@ -109,7 +106,7 @@ export default function Info() {
           <p className="mb-4 text-left text-gray-900"><strong>Breve descipción:</strong> {formData.info}</p>
           <p className="text-left  text-gray-900"><strong>Profesión:</strong> {formData.profession}</p>
           
-          {/* Botones de Editar y Eliminar centrados */}
+          {/* Botones de Editar y Eliminar */}
           <div className="mt-12 flex justify-center">
             <button 
               className="bg-indigo-500 text-white px-4 py-2 rounded-md mr-6 w-24 hover:bg-indigo-600 transition-colors duration-200"
@@ -125,7 +122,6 @@ export default function Info() {
             </button>
           </div>
           
-          {/* Botones de navegación separados - Solo en vista de información */}
           <div className="flex justify-between mt-16">
             {/* Botón "Atrás" - Desactivado en la primera sección */}
             <button
