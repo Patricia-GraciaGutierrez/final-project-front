@@ -138,7 +138,7 @@ function Projects() {
               <p className="text-left my-2  text-gray-900">{project.description}</p>
               <p className="text-left my-2  text-gray-900"><strong>Tecnologías:</strong> {project.technologies.join(", ")}</p>
               {project.link && (
-                <p className="text-left my-2">
+                <p className="text-left my-2  text-gray-950">
                   <strong>Enlace:</strong> <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-indigo-500 hover:underline">{project.link}</a>
                 </p>
               )}
@@ -162,7 +162,7 @@ function Projects() {
             </div>
           ))}
 
-          <div className="mt-12 text-center">
+          <div className="mt-12 flex justify-center">
             <button
               className="bg-indigo-500 text-white px-4 py-2 rounded-md mr-6 w-24 hover:bg-indigo-600 transition-colors duration-200"
               onClick={() => setIsEditing(true)}

@@ -130,7 +130,7 @@ function Contact() {
             </ul>
           </div>
 
-          <div className="mt-12 text-center">
+          <div className="mt-12 flex justify-center">
             <button
               className="bg-indigo-500 text-white px-4 py-2 rounded-md mr-6 w-24 hover:bg-indigo-600 transition-colors duration-200"
               onClick={() => setIsEditing(true)}
