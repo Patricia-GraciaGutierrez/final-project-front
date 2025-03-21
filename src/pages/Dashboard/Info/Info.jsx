@@ -90,7 +90,7 @@ export default function Info() {
             className="w-full border rounded-md p-2  text-gray-950"
             placeholder="¿A qué te dedicas?"
           />
-          <div className="flex justify-between mt-4">
+          <div className="flex justify-between mt-16">
           <button 
               type="button"
               className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400 transition-colors duration-200"
@@ -106,8 +106,8 @@ export default function Info() {
         </form>
       ) : (
         <div className="mt-8">
-          <p className="mb-4 text-left"><strong>Breve descipción:</strong> {formData.info}</p>
-          <p className="text-left"><strong>Profesión:</strong> {formData.profession}</p>
+          <p className="mb-4 text-left text-gray-900"><strong>Breve descipción:</strong> {formData.info}</p>
+          <p className="text-left  text-gray-900"><strong>Profesión:</strong> {formData.profession}</p>
           
           {/* Botones de Editar y Eliminar centrados */}
           <div className="mt-12 flex justify-center">

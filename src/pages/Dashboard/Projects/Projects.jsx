@@ -127,16 +127,16 @@ function Projects() {
 
   return (
     <div className="bg-white shadow-md rounded-lg p-6">
-      <h2 className="text-2xl font-semibold text-indigo-500 text-center">Mis Proyectos</h2>
+      <h2 className="text-2xl font-semibold text-indigo-500 text-center mb-8">Mis proyectos</h2>
       {loading ? (
         <p className="text-gray-500 text-left px-4">Cargando...</p>
       ) : projects.length > 0 && !isEditing ? (
         <div className="mt-4 px-12">
           {projects.map((project, index) => (
             <div key={index} className="border-b pb-2 mt-2">
-              <h3 className="text-xl font-semibold text-left">{project.title}</h3>
-              <p className="text-left my-2">{project.description}</p>
-              <p className="text-left my-2"><strong>Tecnologías:</strong> {project.technologies.join(", ")}</p>
+              <h3 className="text-xl font-semibold text-left  text-gray-900">{project.title}</h3>
+              <p className="text-left my-2  text-gray-900">{project.description}</p>
+              <p className="text-left my-2  text-gray-900"><strong>Tecnologías:</strong> {project.technologies.join(", ")}</p>
               {project.link && (
                 <p className="text-left my-2">
                   <strong>Enlace:</strong> <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-indigo-500 hover:underline">{project.link}</a>
@@ -144,7 +144,7 @@ function Projects() {
               )}
               {project.images && project.images.length > 0 && project.images[0] && (
                 <div className="mt-2 mb-4">
-                  <strong className="text-left block">Imágenes:</strong>
+                  <strong className="text-left block  text-gray-900">Imágenes:</strong>
                   <div className="flex gap-2 mt-1 overflow-x-auto">
                     {project.images.map((img, idx) => (
                       img && (
@@ -152,7 +152,7 @@ function Projects() {
                           key={idx} 
                           src={img} 
                           alt={`${project.title} ${idx + 1}`}
-                          className="h-24 w-auto object-cover rounded"
+                          className="h-24 w-auto object-cover rounded  text-gray-900"
                         />
                       )
                     ))}
@@ -162,7 +162,7 @@ function Projects() {
             </div>
           ))}
 
-          <div className="mt-4 text-center">
+          <div className="mt-12 text-center">
             <button
               className="bg-indigo-500 text-white px-4 py-2 rounded-md mr-6 w-24 hover:bg-indigo-600 transition-colors duration-200"
               onClick={() => setIsEditing(true)}
@@ -220,7 +220,7 @@ function Projects() {
                 type="text" 
                 value={project.title} 
                 onChange={(e) => handleInputChange(index, "title", e.target.value)} 
-                className="w-full border rounded-md p-2 text-left"
+                className="w-full border rounded-md p-2 text-left  text-gray-950"
                 placeholder="Nombre del proyecto" 
               />
 
@@ -228,7 +228,7 @@ function Projects() {
               <textarea 
                 value={project.description} 
                 onChange={(e) => handleInputChange(index, "description", e.target.value)} 
-                className="w-full border rounded-md p-2 min-h-24 text-left"
+                className="w-full border rounded-md p-2 min-h-24 text-left  text-gray-950"
                 placeholder="Describe brevemente tu proyecto y su propósito" 
               />
 
@@ -237,7 +237,7 @@ function Projects() {
                 type="text" 
                 value={project.technologies.join(", ")} 
                 onChange={(e) => handleTechnologiesChange(index, e.target.value)} 
-                className="w-full border rounded-md p-2 text-left"
+                className="w-full border rounded-md p-2 text-left  text-gray-950"
                 placeholder="React, Node.js, MongoDB..." 
               />
 
@@ -246,7 +246,7 @@ function Projects() {
                 type="url" 
                 value={project.link} 
                 onChange={(e) => handleInputChange(index, "link", e.target.value)} 
-                className="w-full border rounded-md p-2 text-left"
+                className="w-full border rounded-md p-2 text-left  text-gray-950"
                 placeholder="https://..." 
               />
 
@@ -255,7 +255,7 @@ function Projects() {
                 type="text" 
                 value={project.images.join(", ")} 
                 onChange={(e) => handleImagesChange(index, e.target.value)} 
-                className="w-full border rounded-md p-2 text-left"
+                className="w-full border rounded-md p-2 text-left  text-gray-950"
                 placeholder="https://ejemplo.com/imagen1.jpg, https://ejemplo.com/imagen2.jpg" 
               />
             </div>
@@ -273,7 +273,7 @@ function Projects() {
           </div>
 
           {/* Botones de Guardar y Cancelar */}
-          <div className="mt-6 flex justify-between">
+          <div className="mt-20 flex justify-between">
             <button
               type="button"
               onClick={() => setIsEditing(false)}

@@ -131,24 +131,24 @@ function Curriculum() {
         <p className="text-gray-500 text-left">Cargando...</p>
       ) : curriculum && !isEditing ? (
         <div className="mt-4 text-left">
-          <p className="mb-4"><strong>Resumen profesional:</strong> {curriculum.bio}</p>
-          <p className="mb-4"><strong>Skills:</strong> {curriculum.skills.join(", ")}</p>
-          <p className="mb-4"><strong>Residencia actual:</strong> {curriculum.location}</p>
+          <p className="mb-4  text-gray-900"><strong>Resumen profesional:</strong> {curriculum.bio}</p>
+          <p className="mb-4  text-gray-900"><strong>Skills:</strong> {curriculum.skills.join(", ")}</p>
+          <p className="mb-4  text-gray-900"><strong>Residencia actual:</strong> {curriculum.location}</p>
 
           <h3 className="mt-8 mb-4 text-xl underline text-slate-800 font-semibold">Experiencia</h3>
           {curriculum.experience.map((exp, index) => (
             <div key={index} className="border-b pb-4 mt-4 mb-4">
-              <p className="mb-2"><strong>{exp.title}</strong> at {exp.company}</p>
-              <p className="mb-2">{exp.startDate} - {exp.endDate}</p>
-              <p className="mb-2">{exp.description}</p>
+              <p className="mb-2  text-gray-900"><strong>{exp.title}</strong> at {exp.company}</p>
+              <p className="mb-2  text-gray-900">{exp.startDate} - {exp.endDate}</p>
+              <p className="mb-2  text-gray-900">{exp.description}</p>
             </div>
           ))}
 
           <h3 className="mt-8 mb-4 text-xl font-semibold underline text-slate-800">Educación</h3>
           {curriculum.education.map((edu, index) => (
             <div key={index} className="border-b pb-4 mt-4 mb-4">
-              <p className="mb-2"><strong>{edu.degree}</strong> at {edu.institution}</p>
-              <p className="mb-2">{edu.startDate} - {edu.endDate}</p>
+              <p className="mb-2  text-gray-900"><strong>{edu.degree}</strong> at {edu.institution}</p>
+              <p className="mb-2  text-gray-900">{edu.startDate} - {edu.endDate}</p>
             </div>
           ))}
 
@@ -347,7 +347,7 @@ function Curriculum() {
             </div>
           ))}
 
-          <div className="mt-8 flex justify-between">
+          <div className="mt-16 flex justify-between">
             <button
               type="button"
               className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400 transition-colors duration-200"

@@ -13,9 +13,9 @@ function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 mt-20">
+    <div className="min-h-screen bg-gray-100 pt-16">
       {/* Menú de edición */}
-      <div className="bg-white shadow-md">
+      <div className="bg-white shadow-md pt-4">
         <div className="container mx-auto px-4 py-4">
           {/* Versión desktop */}
           <nav className="hidden md:flex justify-between items-center px-8">

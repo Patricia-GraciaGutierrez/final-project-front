@@ -109,14 +109,14 @@ function Contact() {
 
   return (
     <div className="bg-white shadow-md rounded-lg p-6">
-      <h2 className="text-2xl font-semibold text-indigo-500 text-center">Información de contacto</h2>
+      <h2 className="text-2xl font-semibold text-indigo-500 text-center mb-8">Información de contacto</h2>
       {loading ? (
         <p className="text-gray-500 text-left px-4">Cargando...</p>
       ) : contact && !isEditing ? (
         <div className="mt-4 px-12">
-          <p className="text-left my-2"><strong>Email:</strong> {contact.email}</p>
-          <p className="text-left my-2"><strong>Teléfono:</strong> {contact.phone}</p>
-          <div className="text-left my-2">
+          <p className="text-left my-2  text-gray-900"><strong>Email:</strong> {contact.email}</p>
+          <p className="text-left my-2  text-gray-900"><strong>Teléfono:</strong> {contact.phone}</p>
+          <div className="text-left my-2  text-gray-900">
             <strong>Redes sociales:</strong>
             <ul className="mt-2">
               {contact.socialLinks.map((link, index) => (
@@ -130,7 +130,7 @@ function Contact() {
             </ul>
           </div>
 
-          <div className="mt-4 text-center">
+          <div className="mt-12 text-center">
             <button
               className="bg-indigo-500 text-white px-4 py-2 rounded-md mr-6 w-24 hover:bg-indigo-600 transition-colors duration-200"
               onClick={() => setIsEditing(true)}
@@ -174,7 +174,7 @@ function Contact() {
             name="email"
             value={formData.email}
             onChange={handleInputChange}
-            className="w-full border rounded-md p-2 text-left"
+            className="w-full border rounded-md p-2 text-left  text-gray-950"
             placeholder="ejemplo@ejemplo.com"
           />
 
@@ -184,7 +184,7 @@ function Contact() {
             name="phone"
             value={formData.phone}
             onChange={handleInputChange}
-            className="w-full border rounded-md p-2 text-left"
+            className="w-full border rounded-md p-2 text-left  text-gray-950"
           />
 
           <label className="block text-gray-700 font-black text-lg text-left mt-8 mb-4">Redes sociales</label>
@@ -196,7 +196,7 @@ function Contact() {
                 value={link.platform}
                 onChange={(e) => handleSocialLinkChange(index, "platform", e.target.value)}
                 placeholder="Plataforma (e.j., Twitter, Linkedin)"
-                className="w-1/2 border rounded-md p-2 text-left"
+                className="w-1/2 border rounded-md p-2 text-left  text-gray-950"
               />
               <input
                 type="url"
@@ -204,7 +204,7 @@ function Contact() {
                 value={link.url}
                 onChange={(e) => handleSocialLinkChange(index, "url", e.target.value)}
                 placeholder="URL"
-                className="w-1/2 border rounded-md p-2 text-left"
+                className="w-1/2 border rounded-md p-2 text-left  text-gray-950"
               />
               <div className="flex space-x-2">
                 <button
@@ -227,7 +227,7 @@ function Contact() {
           <br />
 
           {/* Botones de Guardar y Cancelar */}
-          <div className="mt-6 flex justify-between">
+          <div className="mt-16 flex justify-between">
             <button
               type="button"
               onClick={() => setIsEditing(false)}
