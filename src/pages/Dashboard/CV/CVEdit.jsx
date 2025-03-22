@@ -23,8 +23,22 @@ function Curriculum() {
       try {
         const response = await curriculumService.getCurriculumByUserId(user._id);
         if (response.data) {
+          // Formatear las fechas para mostrarlas correctamente en el cliente
+          const formattedData = {
+            ...response.data,
+            experience: response.data.experience.map(exp => ({
+              ...exp,
+              startDate: exp.startDate ? formatDateForDisplay(exp.startDate) : "",
+              endDate: exp.endDate ? formatDateForDisplay(exp.endDate) : ""
+            })),
+            education: response.data.education.map(edu => ({
+              ...edu,
+              startDate: edu.startDate ? formatDateForDisplay(edu.startDate) : "",
+              endDate: edu.endDate ? formatDateForDisplay(edu.endDate) : ""
+            }))
+          };
           setCurriculum(response.data);
-          setFormData(response.data);
+          setFormData(formattedData);
         }
       } catch (error) {
         console.error("Error fetching curriculum:", error);
@@ -35,6 +49,13 @@ function Curriculum() {
 
     fetchCurriculum();
   }, [user._id]);
+
+  // Función para formatear la fecha de "2022-01-19T00:00:00.000Z" a "2022-01-19"
+  const formatDateForDisplay = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -81,13 +102,14 @@ function Curriculum() {
 
     try {
       if (curriculum) {
-        console.log("Curriculum en handleSubmit:", curriculum);
-        console.log("Curriculum ID:", curriculum?._id);
         await curriculumService.updateCurriculum(curriculum._id, formData);
-        setCurriculum(formData); // Actualizar los datos del curriculum
+        setCurriculum({
+          ...curriculum,
+          ...formData
+        });
       } else {
-        await curriculumService.createCurriculum({ ...formData, userId: user._id });
-        setCurriculum(formData); // Crear el curriculum
+        const result = await curriculumService.createCurriculum({ ...formData, userId: user._id });
+        setCurriculum(result.data);
       }
       setIsEditing(false);
     } catch (error) {
@@ -102,7 +124,7 @@ function Curriculum() {
     setLoading(true);
     try {
       await curriculumService.deleteCurriculum(curriculum._id);
-      setCurriculum(null); // Eliminar el curriculum
+      setCurriculum(null);
       setFormData({
         bio: "",
         skills: [],
@@ -118,13 +140,27 @@ function Curriculum() {
     }
   };
 
-
   const goToPreviousSection = () => {
     navigate("/dashboard/info");
   };
 
   const goToNextSection = () => {
     navigate("/dashboard/projects");
+  };
+
+  // Formato de visualización de fecha: DD-MM-YYYY
+  const displayDate = (dateString) => {
+    if (!dateString) return "";
+    if (dateString.includes('T')) {
+      // Si es una fecha ISO (de MongoDB)
+      const date = new Date(dateString);
+      return `${date.getDate().toString().padStart(2, '0')}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getFullYear()}`;
+    } else if (dateString.includes('-')) {
+      // Si ya es formato YYYY-MM-DD
+      const [year, month, day] = dateString.split('-');
+      return `${day}-${month}-${year}`;
+    }
+    return dateString;
   };
 
   return (
@@ -142,7 +178,7 @@ function Curriculum() {
           {curriculum.experience.map((exp, index) => (
             <div key={index} className="border-b pb-4 mt-4 mb-4">
               <p className="mb-2  text-gray-900"><strong>{exp.title}</strong> at {exp.company}</p>
-              <p className="mb-2  text-gray-900">{exp.startDate} - {exp.endDate}</p>
+              <p className="mb-2  text-gray-900">{displayDate(exp.startDate)} - {displayDate(exp.endDate)}</p>
               <p className="mb-2  text-gray-900">{exp.description}</p>
             </div>
           ))}
@@ -151,7 +187,7 @@ function Curriculum() {
           {curriculum.education.map((edu, index) => (
             <div key={index} className="border-b pb-4 mt-4 mb-4">
               <p className="mb-2  text-gray-900"><strong>{edu.degree}</strong> at {edu.institution}</p>
-              <p className="mb-2  text-gray-900">{edu.startDate} - {edu.endDate}</p>
+              <p className="mb-2  text-gray-900">{displayDate(edu.startDate)} - {displayDate(edu.endDate)}</p>
             </div>
           ))}
 
@@ -273,14 +309,14 @@ function Curriculum() {
               />
               <div className="flex gap-3 mt-3 mb-3">
                 <input
-                  type="text"
+                  type="date"
                   value={exp.startDate || ""}
                   onChange={(e) => handleArrayChange(index, "startDate", e.target.value, "experience")}
                   className="w-1/2 border rounded-md p-3 text-left  text-gray-950"
                   placeholder="Fecha inicio"
                 />
                 <input
-                  type="text"
+                  type="date"
                   value={exp.endDate || ""}
                   onChange={(e) => handleArrayChange(index, "endDate", e.target.value, "experience")}
                   className="w-1/2 border rounded-md p-3 text-left  text-gray-950"
@@ -338,14 +374,14 @@ function Curriculum() {
               />
               <div className="flex gap-3 mt-3">
                 <input
-                  type="text"
+                  type="date"
                   value={edu.startDate || ""}
                   onChange={(e) => handleArrayChange(index, "startDate", e.target.value, "education")}
                   className="w-1/2 border rounded-md p-3 text-left  text-gray-950"
                   placeholder="Fecha inicio"
                 />
                 <input
-                  type="text"
+                  type="date"
                   value={edu.endDate || ""}
                   onChange={(e) => handleArrayChange(index, "endDate", e.target.value, "education")}
                   className="w-1/2 border rounded-md p-3 text-left  text-gray-950"

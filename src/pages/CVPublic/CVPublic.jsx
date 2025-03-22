@@ -106,7 +106,7 @@ const CVPublic = () => {
   };
 
   const handleCopyUrl = () => {
-    const url = `${window.location.origin}/preview/${currentUserId}`;
+    const url = window.location.href;
     navigator.clipboard.writeText(url);
 
     // Mostrar notificación estilizada en lugar de alerta
