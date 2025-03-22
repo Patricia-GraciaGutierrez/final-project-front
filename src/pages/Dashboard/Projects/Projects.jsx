@@ -113,11 +113,13 @@ function Projects() {
     if (isEditing) {
       handleSubmit({ preventDefault: () => {} });
     }
+    window.scrollTo(0, 0);
     navigate("/dashboard/contact");
   };
 
 
   const goToPreviousSection = () => {
+    window.scrollTo(0, 0);
     navigate("/dashboard/curriculum"); 
   };
 

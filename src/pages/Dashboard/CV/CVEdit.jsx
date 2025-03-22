@@ -141,10 +141,12 @@ function Curriculum() {
   };
 
   const goToPreviousSection = () => {
+    window.scrollTo(0, 0);
     navigate("/dashboard/info");
   };
 
   const goToNextSection = () => {
+    window.scrollTo(0, 0);
     navigate("/dashboard/projects");
   };
 

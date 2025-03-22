@@ -60,6 +60,7 @@ export default function Info() {
     if (isEditing) {
       handleSubmit({ preventDefault: () => {} });
     }
+    window.scrollTo(0, 0);
     navigate("/dashboard/curriculum");
   };
 

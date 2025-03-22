@@ -96,10 +96,12 @@ function Contact() {
     if (isEditing) {
       handleSubmit({ preventDefault: () => {} });
     }
+    window.scrollTo(0, 0);
     navigate(`/paginaprofesional/${user._id}`);
   };
 
   const goToPreviousSection = () => {
+    window.scrollTo(0, 0);
     navigate("/dashboard/projects");
   };
 
