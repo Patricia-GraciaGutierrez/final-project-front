@@ -116,6 +116,7 @@ function Curriculum() {
       console.error("Error saving curriculum:", error);
     } finally {
       setLoading(false);
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     }
   };
 
@@ -141,12 +142,12 @@ function Curriculum() {
   };
 
   const goToPreviousSection = () => {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     navigate("/dashboard/info");
   };
 
   const goToNextSection = () => {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     navigate("/dashboard/projects");
   };
 

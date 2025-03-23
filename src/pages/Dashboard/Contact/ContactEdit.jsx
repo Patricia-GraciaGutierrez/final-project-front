@@ -69,6 +69,7 @@ function Contact() {
       console.error("Error saving contact:", error);
     } finally {
       setLoading(false);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -96,12 +97,12 @@ function Contact() {
     if (isEditing) {
       handleSubmit({ preventDefault: () => {} });
     }
-    window.scrollTo(0, 0);
-    navigate(`/paginaprofesional/${user._id}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.open(`/paginaprofesional/${user._id}`, "_blank", "noopener,noreferrer");
   };
 
   const goToPreviousSection = () => {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     navigate("/dashboard/projects");
   };
 

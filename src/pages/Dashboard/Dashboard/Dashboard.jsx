@@ -132,7 +132,7 @@ function Dashboard() {
                     }`}
                   onClick={() => setMenuOpen(false)}
                 >
-                  Projects
+                  Proyectos
                 </Link>
                 <Link
                   to="/dashboard/contact"
@@ -142,7 +142,7 @@ function Dashboard() {
                     }`}
                   onClick={() => setMenuOpen(false)}
                 >
-                  Contact
+                  Contacto
                 </Link>
               </div>
             )}

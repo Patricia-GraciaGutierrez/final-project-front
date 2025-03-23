@@ -88,6 +88,7 @@ function Projects() {
       console.error("Error saving projects:", error);
     } finally {
       setLoading(false);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -113,13 +114,13 @@ function Projects() {
     if (isEditing) {
       handleSubmit({ preventDefault: () => {} });
     }
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     navigate("/dashboard/contact");
   };
 
 
   const goToPreviousSection = () => {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     navigate("/dashboard/curriculum"); 
   };
 

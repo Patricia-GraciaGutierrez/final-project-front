@@ -40,7 +40,10 @@ export default function Info() {
     userService.updateUser(user._id, formData)
       .then(() => setIsEditing(false))
       .catch((error) => console.error("Error updating user info:", error))
-      .finally(() => setLoading(false));
+      .finally(() => {
+        setLoading(false);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
   };
 
   const handleDelete = () => {
@@ -60,7 +63,7 @@ export default function Info() {
     if (isEditing) {
       handleSubmit({ preventDefault: () => {} });
     }
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     navigate("/dashboard/curriculum");
   };
 
