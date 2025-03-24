@@ -457,9 +457,15 @@ const CVPublic = () => {
       </nav>
 
       {/* Main Content */}
-      <main className="cv-content" ref={contentRef}>
-        {renderActiveTab()}
-      </main>
+      <main className="cv-content relative" ref={contentRef}>
+  {/* Capa semitransparente */}
+  <div className="absolute inset-0 bg-black bg-opacity-10 z-0 pointer-events-none"></div>
+  
+  {/* Contenido con z-index mayor para estar por encima de la capa */}
+  <div className="relative z-10">
+    {renderActiveTab()}
+  </div>
+</main>
 
       {/* Footer */}
       <footer className="cv-footer">

@@ -915,30 +915,16 @@ body {
   }
 }
 
-/* Modo oscuro */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-color: #121212;
-    --text-primary: #f0f0f0;
-    --text-secondary: #a0a0a0;
-    --border-color: #333;
-  }
-  
-  .project-card,
-  .contact-item,
-  .info-block,
-  .error-message,
-  .empty-message {
-    background-color: #1e1e1e;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  }
-  
-  .tech-tag {
-    background-color: #2a2a2a;
-    color: #a0a0a0;
-  }
-  
-  .social-link {
-    border-bottom-color: #333;
-  }
+/* Forzar el modo claro */
+:root {
+  --bg-color: #f7f7f7 !important;
+  --text-primary: #111 !important;
+  --text-secondary: #555 !important;
+  --accent-color: #0066ff !important;
+  --border-color: #e0e0e0 !important;
+}
+
+body {
+  background-color: var(--bg-color) !important;
+  color: var(--text-primary) !important;
 }
