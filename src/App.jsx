@@ -12,6 +12,7 @@ import Projects from "./pages/Dashboard/Projects/Projects";
 import ContactEdit from "./pages/Dashboard/Contact/ContactEdit";
 import Info from "./pages/Dashboard/Info/Info";
 import NotFound from "./pages/NotFound/NotFound";
+import SeoAnalysis from "./pages/Dashboard/SeoAnalysis/SeoAnalysis";
 
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
@@ -38,6 +39,7 @@ function App() {
           <Route path="curriculum" element={<CVEdit />} />
           <Route path="projects" element={<Projects />} />
           <Route path="contact" element={<ContactEdit />} />
+          <Route path="seo" element={<SeoAnalysis />} />
         </Route>
 
         {/* Rutas accesibles sin autenticación */}

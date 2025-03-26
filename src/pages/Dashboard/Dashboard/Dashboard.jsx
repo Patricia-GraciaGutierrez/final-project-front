@@ -6,7 +6,7 @@ function Dashboard() {
   const location = useLocation(); // Para detectar la ruta activa
   const { user } = useContext(AuthContext);
   const [menuOpen, setMenuOpen] = useState(false);
-  
+
   // Función para determinar si un enlace está activo
   const isActive = (path) => {
     return location.pathname === `/dashboard${path}`;
@@ -56,6 +56,15 @@ function Dashboard() {
               >
                 Contacto
               </Link>
+              <Link
+                to="/dashboard/seo"
+                className={`text-lg font-semibold ${isActive("/seo")
+                  ? "text-indigo-500 border-b-2 border-indigo-500"
+                  : "text-gray-700 hover:text-indigo-500 hover:border-b-2 hover:border-indigo-500"
+                  } transition-colors`}
+              >
+                SEO Analysis
+              </Link>
             </div>
             <Link
               to={`/paginaprofesional/${user?._id}`}
@@ -69,12 +78,12 @@ function Dashboard() {
               Preview
             </Link>
           </nav>
-          
+
           {/* Versión móvil */}
           <div className="md:hidden">
             <div className="flex justify-between items-center">
               {/* Nuevo icono para el menú de secciones */}
-              <button 
+              <button
                 onClick={() => setMenuOpen(!menuOpen)}
                 className="text-gray-700 focus:outline-none"
               >
@@ -86,7 +95,16 @@ function Dashboard() {
                   )}
                 </svg>
               </button>
-              
+              <Link
+                to="/dashboard/seo"
+                className={`block py-2 px-2 rounded ${isActive("/seo")
+                  ? "bg-indigo-50 text-indigo-500"
+                  : "text-gray-700 hover:bg-gray-50"
+                  }`}
+                onClick={() => setMenuOpen(false)}
+              >
+                SEO Analysis
+              </Link>
               {/* Botón de Preview siempre visible */}
               <Link
                 to={`/paginaprofesional/${user?._id}`}
@@ -100,7 +118,7 @@ function Dashboard() {
                 Preview
               </Link>
             </div>
-            
+
             {/* Menú desplegable móvil */}
             {menuOpen && (
               <div className="mt-4 space-y-2 pb-2">
