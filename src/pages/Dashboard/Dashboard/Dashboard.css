@@ -1,0 +1,9 @@
+@keyframes borderGlow {
+    0% { box-shadow: 0 0 5px #F9C23C; }
+    50% { box-shadow: 0 0 15px #6366f1e6; }
+    100% { box-shadow: 0 0 5px #F9C23C; }
+  }
+  
+  .glowing-border {
+    animation: borderGlow 1.5s infinite alternate;
+  }
