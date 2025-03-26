@@ -7,19 +7,22 @@ function SeoAnalysis() {
     const { user } = useContext(AuthContext);
     const [seoData, setSeoData] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(null);
 
     useEffect(() => {
         const fetchSeoAnalysis = async () => {
             setLoading(true);
+            setErrorMessage(null);  // Limpiar el mensaje de error antes de hacer la solicitud
             try {
                 const { data } = await seoService.getSeoAnalysis();
                 setSeoData(data);
             } catch (error) {
                 console.error("Error fetching SEO analysis:", error);
+                setErrorMessage(error.message);  // Establecer el mensaje de error
             }
             setLoading(false);
         };
-
+    
         if (user) fetchSeoAnalysis();
     }, [user]);
 
@@ -35,31 +38,38 @@ function SeoAnalysis() {
         ?.split(",")
         ?.map(word => capitalizeFirstLetter(word.trim())) || [];
 
-    return (
-        <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-2xl font-semibold text-indigo-500 text-center">Análisis de tu perfil con la IA Gemini</h2>
-            {loading && <p className="text-gray-500">Analizando...</p>}
-            
-            {!seoData && !loading && (
-                <p className="text-red-600 text-left font-medium mt-4">
-                    Rellena los campos "Breve descripción", "Profesión" y "Resumen profesional" para que la Inteligencia Artificial analice tu perfil.
-                </p>
-            )}
-
-            {seoData && (
-                <div className="mt-4 text-left">
-                    <p className="text-black font-medium mb-8">
-                        Estas son las palabras clave que deberías incluir en tu perfil profesional para mejorar tu visibilidad en buscadores como Google, o redes sociales como Linkedin, y facilitar que más personas te encuentren. Incorporar estas palabras ayudará a destacar tu experiencia y habilidades:
+        return (
+            <div className="bg-white p-6 rounded-lg shadow-md">
+                <h2 className="text-2xl font-semibold text-indigo-500 text-center">Análisis de tu perfil con la IA Gemini</h2>
+                
+                {loading && <p className="text-gray-500">Analizando...</p>}
+                
+                {errorMessage && (
+                    <p className="text-red-600 text-left font-medium mt-4">
+                        {errorMessage} {/* Mostrar el mensaje de error */}
                     </p>
-                    <ul className="list-disc list-inside mt-2 text-black">
-                        {keywordsArray.map((keyword, index) => (
-                            <li key={index}>{keyword}</li>
-                        ))}
-                    </ul>
-                </div>
-            )}
-        </div>
-    );
+                )}
+        
+                {!seoData && !loading && !errorMessage && (
+                    <p className="text-red-600 text-left font-medium mt-4">
+                        Rellena los campos "Breve descripción", "Profesión" y "Resumen profesional" para que la Inteligencia Artificial analice tu perfil.
+                    </p>
+                )}
+        
+                {seoData && (
+                    <div className="mt-4 text-left">
+                        <p className="text-black font-medium mb-8">
+                            Estas son las palabras clave que deberías incluir en tu perfil profesional para mejorar tu visibilidad en buscadores como Google, o redes sociales como Linkedin, y facilitar que más personas te encuentren. Incorporar estas palabras ayudará a destacar tu experiencia y habilidades:
+                        </p>
+                        <ul className="list-disc list-inside mt-2 text-black">
+                            {keywordsArray.map((keyword, index) => (
+                                <li key={index}>{keyword}</li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+            </div>
+        );
 }
 
 export default SeoAnalysis;
