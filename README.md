@@ -1,4 +1,6 @@
-<img src="./public/icon.png" alt="Logo de PatShare" width="50" align="left"> PatShare
+![Logo de PatShare](./public/icon.png)
+
+# PatShare
 
 ## 📋 Descripción
 PatShare es una aplicación web innovadora que permite a profesionales crear y compartir su perfil profesional de manera rápida, inteligente y sin complicaciones. La plataforma utiliza inteligencia artificial para optimizar la presentación profesional, eliminando la barrera del diseño y el tiempo de creación.
