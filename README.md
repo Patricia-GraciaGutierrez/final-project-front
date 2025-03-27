@@ -1,4 +1,4 @@
-![Logo de PatShare](./public/icon.png)
+![Logo de PatShare](./src/assets/icon%2064%20x%2064.png)
 
 # PatShare
 
