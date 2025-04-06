@@ -19,8 +19,21 @@ function Contact() {
     const fetchContact = async () => {
       try {
         const response = await contactService.getContactByUserId(user._id);
-        setContact(response.data || null);
-        setFormData(prevFormData => response.data || prevFormData);
+        
+        // Log para debug
+        console.log("Contacto obtenido:", response.data);
+        
+        if (response.data && response.data._id) {
+          setContact(response.data);
+          setFormData(response.data);
+        } else {
+          setContact(null);
+          setFormData({
+            email: "",
+            phone: "",
+            socialLinks: [],
+          });
+        }
       } catch (error) {
         console.error("Error fetching contact:", error);
       } finally {
@@ -55,18 +68,42 @@ function Contact() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (e && e.preventDefault) {
+      e.preventDefault();
+    }
+    
+    // Verificar si hay cambios cuando se está editando
+    if (contact && isEditing) {
+      const noChanges = 
+        contact.email === formData.email && 
+        contact.phone === formData.phone && 
+        JSON.stringify(contact.socialLinks) === JSON.stringify(formData.socialLinks);
+      
+      if (noChanges) {
+        setIsEditing(false);
+        return;
+      }
+    }
+    
     setLoading(true);
     try {
-      if (contact) {
+      if (contact && contact._id) {
+        // Añadimos console.log para debug
+        console.log("Actualizando contacto con ID:", contact._id);
         await contactService.updateContact(contact._id, formData);
+        setContact({...formData, _id: contact._id}); // Preservamos el ID
       } else {
-        await contactService.createContact({ ...formData, userId: user._id });
+        console.log("Creando nuevo contacto");
+        const result = await contactService.createContact({ ...formData, userId: user._id });
+        setContact(result.data); // Guardamos la respuesta completa que incluye el ID
       }
-      setContact(formData);
       setIsEditing(false);
     } catch (error) {
       console.error("Error saving contact:", error);
+      // Mostrar más detalles del error
+      if (error.response) {
+        console.error("Error response:", error.response.data);
+      }
     } finally {
       setLoading(false);
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -186,26 +223,21 @@ function Contact() {
             className="w-full border rounded-md p-2 text-left  text-gray-950"
           />
 
-          <label className="block text-gray-700 font-black text-lg text-left mt-8 mb-4">Redes sociales</label>
+          <div className="mt-10 mb-6 flex justify-between items-center">
+            <h3 className="text-gray-700 font-black text-lg text-left">Redes sociales</h3>
+            <button
+              type="button"
+              onClick={handleAddSocialLink}
+              className="bg-indigo-500 text-white w-8 h-8 rounded-full text-lg font-bold hover:bg-indigo-600 transition-colors duration-200"
+            >
+              +
+            </button>
+          </div>
+
           {formData.socialLinks.map((link, index) => (
-            <div key={index} className="flex space-x-2 mt-2 items-center">
-              <input
-                type="text"
-                name="platform"
-                value={link.platform}
-                onChange={(e) => handleSocialLinkChange(index, "platform", e.target.value)}
-                placeholder="Plataforma (e.j., Twitter, Linkedin)"
-                className="w-1/2 border rounded-md p-2 text-left  text-gray-950"
-              />
-              <input
-                type="url"
-                name="url"
-                value={link.url}
-                onChange={(e) => handleSocialLinkChange(index, "url", e.target.value)}
-                placeholder="URL"
-                className="w-1/2 border rounded-md p-2 text-left  text-gray-950"
-              />
-              <div className="flex space-x-2">
+            <div key={index} className="border-b pb-4 mt-4 text-left mb-6">
+              <div className="flex justify-between items-center mb-4">
+                <span className="font-semibold text-slate-400">Red social {index + 1}</span>
                 <button
                   type="button"
                   onClick={() => handleRemoveSocialLink(index)}
@@ -213,14 +245,24 @@ function Contact() {
                 >
                   -
                 </button>
-                <button
-                  type="button"
-                  onClick={handleAddSocialLink}
-                  className="bg-white border-2 border-indigo-500 text-indigo-500 px-4 py-2 rounded-md w-18 hover:bg-indigo-50 transition-colors duration-200"
-                >
-                  +
-                </button>
               </div>
+              
+              <input
+                type="text"
+                name="platform"
+                value={link.platform}
+                onChange={(e) => handleSocialLinkChange(index, "platform", e.target.value)}
+                placeholder="Plataforma (e.j., Twitter, Linkedin)"
+                className="w-full border rounded-md p-2 text-left mb-3 text-gray-950"
+              />
+              <input
+                type="url"
+                name="url"
+                value={link.url}
+                onChange={(e) => handleSocialLinkChange(index, "url", e.target.value)}
+                placeholder="URL"
+                className="w-full border rounded-md p-2 text-left text-gray-950"
+              />
             </div>
           ))}
           <br />
