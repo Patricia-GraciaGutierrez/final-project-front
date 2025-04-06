@@ -82,7 +82,7 @@ function Navbar() {
       <div className={`md:hidden fixed inset-x-0 top-0 bg-gradient-to-b from-indigo-600 to-indigo-500 z-50 h-screen transform transition-transform duration-300 ease-in-out ${isMenuOpen ? "translate-y-0" : "-translate-y-full"}`}>
         <div className="container mx-auto px-6 py-8">
           <div className="flex justify-between items-center mb-8">
-            <Link to="/" className="text-2xl font-bold text-white" onClick={toggleMenu}>Mi<span className="text-indigo-200">Portfolio</span></Link>
+            <Link to="/" className="text-2xl font-bold text-white" onClick={toggleMenu}>Pat<span className="text-indigo-200">Share</span></Link>
             <button onClick={toggleMenu} className="focus:outline-none">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />

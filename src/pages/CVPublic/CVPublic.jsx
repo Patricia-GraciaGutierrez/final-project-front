@@ -6,8 +6,8 @@ import "./CVPublic.css";
 
 const CVPublic = () => {
   const { user } = useContext(AuthContext);
-  const { userId } = useParams();
-  const currentUserId = userId || user?._id;
+  const { id } = useParams();
+  const currentUserId = id || user?._id;
 
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -54,24 +54,38 @@ const CVPublic = () => {
   // Fetch del perfil
   useEffect(() => {
     const fetchProfile = async () => {
+      // Verificar explícitamente que hay un ID para obtener
       if (!currentUserId) {
+        console.log("No hay ID de usuario para obtener perfil");
         setLoading(false);
         return;
       }
 
       try {
         setLoading(true);
-        const response = await userService.getUserProfile(currentUserId);
-        setProfileData(response.data);
+        console.log("Obteniendo perfil para ID:", currentUserId);
+
+        // Si estamos viendo un perfil por URL (modo público)
+        if (id) {
+          const response = await userService.getUserPublicProfile(currentUserId);
+          setProfileData(response.data);
+        } else {
+          // Si estamos viendo nuestro propio perfil (autenticado)
+          const response = await userService.getUserProfile(currentUserId);
+          setProfileData(response.data);
+        }
+
         setLoading(false);
       } catch (error) {
         console.error("Error fetching profile data:", error);
+        console.error("Status:", error.response?.status);
+        console.error("Mensaje:", error.response?.data?.message);
         setLoading(false);
       }
     };
 
     fetchProfile();
-  }, [currentUserId]);
+  }, [currentUserId, id]);
 
   const handleTabChange = (tab) => {
     if (tab === activeTab) return;
@@ -401,15 +415,15 @@ const CVPublic = () => {
               Compartir
             </button>
             <div className="background-selector">
-        <button onClick={() => handleBackgroundChange("waves-background")}>
-        </button>
-        <button onClick={() => handleBackgroundChange("stripes-background")}>
-        </button>
-        <button onClick={() => handleBackgroundChange("circles-background")}>
-        </button>
-        <button onClick={() => handleBackgroundChange("grid-background")}>
-        </button>
-      </div>
+              <button onClick={() => handleBackgroundChange("waves-background")}>
+              </button>
+              <button onClick={() => handleBackgroundChange("stripes-background")}>
+              </button>
+              <button onClick={() => handleBackgroundChange("circles-background")}>
+              </button>
+              <button onClick={() => handleBackgroundChange("grid-background")}>
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -458,14 +472,14 @@ const CVPublic = () => {
 
       {/* Main Content */}
       <main className="cv-content relative" ref={contentRef}>
-  {/* Capa semitransparente */}
-  <div className="absolute inset-0 bg-black bg-opacity-10 z-0 pointer-events-none"></div>
-  
-  {/* Contenido con z-index mayor para estar por encima de la capa */}
-  <div className="relative z-10">
-    {renderActiveTab()}
-  </div>
-</main>
+        {/* Capa semitransparente */}
+        <div className="absolute inset-0 bg-black bg-opacity-10 z-0 pointer-events-none"></div>
+
+        {/* Contenido con z-index mayor para estar por encima de la capa */}
+        <div className="relative z-10">
+          {renderActiveTab()}
+        </div>
+      </main>
 
       {/* Footer */}
       <footer className="cv-footer">
