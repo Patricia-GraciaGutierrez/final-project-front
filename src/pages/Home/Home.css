@@ -45,6 +45,16 @@
   }
 }
 
+/* Reemplazar la animación existente por esta */
+@keyframes bulb-glow {
+  0% {
+    color: #d1d5db; /* Gris claro */
+  }
+  100% {
+    color: #f59e0b; /* Amarillo brillante */
+  }
+}
+
 .animate-custom-fade-in {
   animation: customFadeIn 1s ease-out forwards;
 }
@@ -59,6 +69,11 @@
 
 .animate-slow-pulse {
   animation: slowPulse 8s linear infinite;
+}
+
+.bulb-animation {
+  animation: bulb-glow 1.5s infinite alternate;
+  color: #f59e0b; /* Amarillo base para que siempre tenga color */
 }
 
 .delay-100 {
