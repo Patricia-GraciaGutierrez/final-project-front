@@ -60,7 +60,7 @@ body {
   .stripes-background {
     background: repeating-linear-gradient(
       45deg,
-      #feffe4,
+      #ffefe4,
       #feffe4 10px,
       #fff0c2 10px,
       #fff0c2 20px
@@ -69,7 +69,7 @@ body {
   }
   
   .circles-background {
-    background: radial-gradient(circle, #ff9a9e, #fad0c4, #a6c1ee);
+    background: radial-gradient(circle, #ffeb9a, #fad0c4, #a6c1ee);
     background-size: 400% 400%;
     animation: circlesAnimation 10s ease infinite;
   }
@@ -153,11 +153,11 @@ body {
   }
   
   .background-selector button:nth-child(2) {
-    background-color: #ff9a9e; /* Color para Rayas */
+    background-color: #ffd117; /* Color para Rayas */
   }
   
   .background-selector button:nth-child(3) {
-    background-color: #a6c1ee; /* Color para Círculos */
+    background-color: #c95074; /* Color para Círculos */
   }
   
   .background-selector button:nth-child(4) {
@@ -186,6 +186,13 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  width: 100%;
+}
+
+.identity {
+  text-align: left;
+  /* Si quieres que ocupe más espacio */
+  flex-grow: 1;
 }
 
 .identity .name {
@@ -269,7 +276,7 @@ body {
 }
 
 .nav-tab.active {
-  color: var(--accent-color);
+  color: var (--accent-color);
 }
 
 .nav-indicator {
@@ -332,6 +339,14 @@ body {
   margin-bottom: 60px;
 }
 
+.content-section > p {
+  text-align: left;
+  font-size: 1rem;
+  line-height: 1.8;
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
+  color: var(--text-primary);
+}
+
 .tab-content {
   max-width: 800px;
   margin: 0 auto;
@@ -342,6 +357,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+  justify-content: center; /* Centra las habilidades horizontalmente */
 }
 
 .skill-tag {
@@ -396,16 +412,34 @@ body {
   transform: scale(1.5);
 }
 
+.timeline-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.timeline-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px; /* Espacio reducido entre elementos */
+  margin-bottom: 10px;
+  width: 100%;
+}
+
 .timeline-content h3 {
   font-family: var(--font-mono);
   font-size: 1.1rem;
-  margin-bottom: 5px;
+  margin-bottom: 0;
+  margin-right: 0; /* Eliminar margen horizontal */
 }
 
 .timeline-content h4 {
   font-size: 0.95rem;
   font-weight: 500;
-  margin-bottom: 5px;
+  margin-bottom: 0;
+  margin-right: 0; /* Eliminar margen horizontal */
   color: var(--text-secondary);
 }
 
@@ -413,12 +447,16 @@ body {
   font-size: 0.85rem;
   color: var(--text-secondary);
   font-style: italic;
-  margin-bottom: 10px;
+  margin-bottom: 0;
 }
 
 .timeline-description {
   font-size: 0.95rem;
-  line-height: 1.7;
+  line-height: 1.3; /* Espacio más compacto entre líneas */
+  text-align: left;
+  white-space: pre-line; /* Respeta saltos de línea */
+  width: 100%;
+  margin-top: 5px; /* Un poco de espacio después del header */
 }
 
 /* Proyectos */
@@ -429,11 +467,14 @@ body {
 }
 
 .project-card {
-  border-radius: 4px;
+  border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  /* Fondo menos transparente */
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: transform var(--transition-speed), box-shadow var(--transition-speed);
-  background-color: white;
 }
 
 .project-card:hover {
@@ -466,6 +507,8 @@ body {
   font-size: 1.1rem;
   margin-bottom: 10px;
   line-height: 1.3;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+  color: var(--text-primary);
 }
 
 .project-description {
@@ -476,6 +519,8 @@ body {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+  color: var(--text-primary);
 }
 
 .project-technologies {
@@ -491,7 +536,7 @@ body {
   padding: 3px 8px;
   background-color: #f2f2f2;
   border-radius: 4px;
-  color: var(--text-secondary);
+  color: var (--text-secondary);
 }
 
 .project-link {
@@ -526,9 +571,13 @@ body {
 
 .contact-item {
   padding: 25px;
-  background-color: white;
-  border-radius: 4px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  /* Eliminar fondo */
+  background-color: transparent;
+  backdrop-filter: none;
+  /* Borde sutil */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   transition: transform var(--transition-speed), box-shadow var(--transition-speed);
 }
 
@@ -542,6 +591,8 @@ body {
   font-size: 0.9rem;
   margin-bottom: 15px;
   color: var(--text-secondary);
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
+  color: var(--text-primary);
 }
 
 .contact-link {
@@ -552,6 +603,8 @@ body {
   position: relative;
   display: inline-block;
   transition: color var(--transition-speed);
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
+  color: var(--text-primary);
 }
 
 .contact-link::after {
@@ -595,6 +648,8 @@ body {
 
 .social-platform {
   font-size: 0.9rem;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+  color: var(--text-primary);
 }
 
 .social-arrow {
@@ -608,12 +663,15 @@ body {
 
 /* Info específico */
 .info-block {
-  background-color: white;
+  background-color: transparent;
+  backdrop-filter: none;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   padding: 30px;
-  border-radius: 4px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   margin-bottom: 30px;
   transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+  text-align: left;
 }
 
 .info-block:hover {
@@ -626,11 +684,20 @@ body {
   font-size: 0.9rem;
   margin-bottom: 15px;
   color: var(--text-secondary);
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+  color: var(--text-primary);
 }
 
 .info-block p {
   font-size: 1rem;
   line-height: 1.8;
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
+  color: var(--text-primary);
+}
+
+/* Bloque de ubicación específico */
+.location-block p {
+  text-align: center; /* Centrar el texto de ubicación */
 }
 
 /* Footer */
@@ -729,11 +796,27 @@ body {
 /* Mensaje vacío */
 .empty-message {
   padding: 30px;
-  background-color: white;
-  border-radius: 4px;
+  /* Eliminar fondo */
+  background-color: transparent;
+  backdrop-filter: none;
+  /* Borde sutil */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
   text-align: center;
-  color: var(--text-secondary);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  color: var(--text-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.empty-message {
+  padding: 30px;
+  /* Fondo menos transparente */
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  text-align: center;
+  color: var(--text-primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* Notificación de copia */

@@ -186,10 +186,12 @@ const CVPublic = () => {
       )}
 
       {location && (
-        <div className="info-block location-block">
-          <h3>Ubicación</h3>
-          <p>{location}</p>
-        </div>
+        <>
+          <h2 className="section-title">Ubicación</h2>
+          <div className="info-block location-block">
+            <p>{location}</p>
+          </div>
+        </>
       )}
     </div>
   );
@@ -228,14 +230,16 @@ const CVPublic = () => {
               <div key={index} className="timeline-item">
                 <div className="timeline-marker"></div>
                 <div className="timeline-content">
-                  <h3>{exp.title}</h3>
-                  <h4>{exp.company}</h4>
-                  {(exp.startDate || exp.endDate) && (
-                    <p className="timeline-date">
-                      {formatDate(exp.startDate)}
-                      {exp.endDate ? ` - ${formatDate(exp.endDate)}` : " - Presente"}
-                    </p>
-                  )}
+                  <div className="timeline-header">
+                    <h3>{exp.title}</h3>
+                    <h4>{exp.company}</h4>
+                    {(exp.startDate || exp.endDate) && (
+                      <p className="timeline-date">
+                        {formatDate(exp.startDate)}
+                        {exp.endDate ? ` - ${formatDate(exp.endDate)}` : " - Presente"}
+                      </p>
+                    )}
+                  </div>
                   {exp.description && (
                     <p className="timeline-description">
                       {exp.description}
@@ -257,14 +261,16 @@ const CVPublic = () => {
               <div key={index} className="timeline-item">
                 <div className="timeline-marker"></div>
                 <div className="timeline-content">
-                  <h3>{edu.degree}</h3>
-                  <h4>{edu.institution}</h4>
-                  {(edu.startDate || edu.endDate) && (
-                    <p className="timeline-date">
-                      {formatDate(edu.startDate)}
-                      {edu.endDate ? ` - ${formatDate(edu.endDate)}` : " - Presente"}
-                    </p>
-                  )}
+                  <div className="timeline-header">
+                    <h3>{edu.degree}</h3>
+                    <h4>{edu.institution}</h4>
+                    {(edu.startDate || edu.endDate) && (
+                      <p className="timeline-date">
+                        {formatDate(edu.startDate)}
+                        {edu.endDate ? ` - ${formatDate(edu.endDate)}` : " - Presente"}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
@@ -450,14 +456,14 @@ const CVPublic = () => {
             className={`nav-tab ${activeTab === "projects" ? "active" : ""}`}
             disabled={isTransitioning}
           >
-            Projects
+            Proyectos
           </button>
           <button
             onClick={() => handleTabChange("contact")}
             className={`nav-tab ${activeTab === "contact" ? "active" : ""}`}
             disabled={isTransitioning}
           >
-            Contact
+            Contacto
           </button>
           <div
             className="nav-indicator"

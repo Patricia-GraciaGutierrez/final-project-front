@@ -107,7 +107,7 @@ export default function Info() {
         </form>
       ) : (
         <div className="mt-8">
-          <p className="mb-4 text-left text-gray-900"><strong>Breve descipción:</strong> {formData.info}</p>
+          <p className="mb-4 text-left text-gray-900"><strong>Breve descripción:</strong> {formData.info}</p>
           <p className="text-left  text-gray-900"><strong>Profesión:</strong> {formData.profession}</p>
           
           {/* Botones de Editar y Eliminar */}
